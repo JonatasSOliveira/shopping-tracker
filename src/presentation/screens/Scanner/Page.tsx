@@ -1,11 +1,15 @@
-import { CameraView, CameraType, useCameraPermissions, BarcodeScanningResult} from 'expo-camera';
-import { useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View, Alert} from 'react-native';
+import {
+  CameraView,
+  useCameraPermissions,
+  BarcodeScanningResult,
+} from "expo-camera";
+import React, { useState } from "react";
+import { Button, StyleSheet, Text, View, Alert } from "react-native";
 
-export default function App() {
-  const [canScan, setCanScan] = useState(true)
-  const [lastCodes, setLastCodes] = useState<string[]>([])
-  const [permission, requestPermission] = useCameraPermissions()
+export default function ScannerPage() {
+  const [canScan, setCanScan] = useState(true);
+  const [lastCodes, setLastCodes] = useState<string[]>([]);
+  const [permission, requestPermission] = useCameraPermissions();
 
   if (!permission || !canScan) {
     return <View />;
@@ -14,55 +18,56 @@ export default function App() {
   if (!permission.granted) {
     return (
       <View style={styles.container}>
-        <Text style={styles.message}>We need your permission to show the camera</Text>
+        <Text style={styles.message}>
+          We need your permission to show the camera
+        </Text>
         <Button onPress={requestPermission} title="grant permission" />
       </View>
     );
   }
-  
+
   function getProductByBarcode(scanningResult: BarcodeScanningResult) {
-    const scannedCode = scanningResult.data
-    const codesQtd = lastCodes.length
-    
+    const scannedCode = scanningResult.data;
+    const codesQtd = lastCodes.length;
+
     if (codesQtd < 1) {
-      lastCodes.push(scannedCode)
-      setLastCodes(lastCodes)
-      return
+      lastCodes.push(scannedCode);
+      setLastCodes(lastCodes);
+      return;
     }
-    
+
     if (codesQtd < 5) {
-      const lastCode = lastCodes[codesQtd - 1]
-      
+      const lastCode = lastCodes[codesQtd - 1];
+
       if (lastCode !== scannedCode) {
-        setLastCodes([scannedCode])
+        setLastCodes([scannedCode]);
       } else {
-        lastCodes.push(scannedCode)
-        setLastCodes(lastCodes)
+        lastCodes.push(scannedCode);
+        setLastCodes(lastCodes);
       }
-      
-      return
+
+      return;
     }
-    
-    setCanScan(false)
-    Alert.alert(
-      "Codigo de Barras:", 
-      scannedCode,
-      [{
+
+    setCanScan(false);
+    Alert.alert("Codigo de Barras:", scannedCode, [
+      {
         text: "Ok",
-        onPress: () => setCanScan(true)
-      }]
-    )
+        onPress: () => setCanScan(true),
+      },
+    ]);
   }
 
   return (
     <View style={styles.container}>
-      <CameraView style={styles.camera} 
-      facing="back"
-      barcodeScannerSettings={{
-        barcodeTypes: ["ean13"]
-      }}
-      onBarcodeScanned={getProductByBarcode}>
-      </CameraView>
+      <CameraView
+        style={styles.camera}
+        facing="back"
+        barcodeScannerSettings={{
+          barcodeTypes: ["ean13"],
+        }}
+        onBarcodeScanned={getProductByBarcode}
+      ></CameraView>
     </View>
   );
 }
@@ -70,10 +75,10 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   message: {
-    textAlign: 'center',
+    textAlign: "center",
     paddingBottom: 10,
   },
   camera: {
@@ -81,7 +86,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
 });

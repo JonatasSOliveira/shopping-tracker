@@ -1,3 +1,5 @@
-export function Required(target: any, propertyKey: string) {
-  Reflect.defineMetadata('required', true, target, propertyKey)
+import "reflect-metadata";
+
+export function Required(target: object, propertyKey: string | symbol): void {
+  Reflect.defineMetadata("required", true, target, propertyKey);
 }

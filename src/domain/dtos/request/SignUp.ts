@@ -1,12 +1,15 @@
-import { Required } from "@decorators/Required"
+import { Required } from "@decorators/Required";
 
 export class SignUpRequestDTO {
   @Required
-  public name: string
-  
+  public name: string = "";
+
   @Required
-  public email: string
-  
+  public email: string = "";
+
   @Required
-  public password: string
+  public password: string = "";
+
+  @Required
+  public confirmPassword: string = "";
 }

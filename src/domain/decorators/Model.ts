@@ -1,47 +1,48 @@
 import "reflect-metadata";
-// Decorator para adicionar as propriedades e métodos
+
 export function Model(tableName: string) {
-  return function <T extends { new (...args: any[]): {} }>(constructor: T) {
-    // Definindo a tabela como metadata
+  return function <T extends { new (...args: unknown[]): object }>(
+    constructor: T,
+  ) {
     Reflect.defineMetadata("tableName", tableName, constructor);
 
-    // Adicionando os métodos getters e setters
+    // Tipando corretamente o protótipo da instância
     Object.defineProperties(constructor.prototype, {
       id: {
-        get(this: any) {
+        get(this: { _id?: number }) {
           return this._id;
         },
-        set(this: any, value: number) {
+        set(this: { _id?: number }, value: number) {
           this._id = value;
         },
         enumerable: true,
         configurable: true,
       },
       createdAt: {
-        get(this: any) {
+        get(this: { _createdAt?: Date }) {
           return this._createdAt;
         },
-        set(this: any, value: Date) {
+        set(this: { _createdAt?: Date }, value: Date) {
           this._createdAt = value;
         },
         enumerable: true,
         configurable: true,
       },
       updatedAt: {
-        get(this: any) {
+        get(this: { _updatedAt?: Date }) {
           return this._updatedAt;
         },
-        set(this: any, value: Date) {
+        set(this: { _updatedAt?: Date }, value: Date) {
           this._updatedAt = value;
         },
         enumerable: true,
         configurable: true,
       },
       deletedAt: {
-        get(this: any) {
+        get(this: { _deletedAt?: Date }) {
           return this._deletedAt;
         },
-        set(this: any, value: Date) {
+        set(this: { _deletedAt?: Date }, value: Date) {
           this._deletedAt = value;
         },
         enumerable: true,
@@ -49,36 +50,54 @@ export function Model(tableName: string) {
       },
     });
 
-    // Criando métodos get e set explicitamente
-    constructor.prototype.getId = function () {
+    // Tipando os métodos no protótipo
+    constructor.prototype.getId = function (this: { _id?: number }) {
       return this._id;
     };
 
-    constructor.prototype.setId = function (value: number) {
+    constructor.prototype.setId = function (
+      this: { _id?: number },
+      value: number,
+    ) {
       this._id = value;
     };
 
-    constructor.prototype.getCreatedAt = function () {
+    constructor.prototype.getCreatedAt = function (this: {
+      _createdAt?: Date;
+    }) {
       return this._createdAt;
     };
 
-    constructor.prototype.setCreatedAt = function (value: Date) {
+    constructor.prototype.setCreatedAt = function (
+      this: { _createdAt?: Date },
+      value: Date,
+    ) {
       this._createdAt = value;
     };
 
-    constructor.prototype.getUpdatedAt = function () {
+    constructor.prototype.getUpdatedAt = function (this: {
+      _updatedAt?: Date;
+    }) {
       return this._updatedAt;
     };
 
-    constructor.prototype.setUpdatedAt = function (value: Date) {
+    constructor.prototype.setUpdatedAt = function (
+      this: { _updatedAt?: Date },
+      value: Date,
+    ) {
       this._updatedAt = value;
     };
 
-    constructor.prototype.getDeletedAt = function () {
+    constructor.prototype.getDeletedAt = function (this: {
+      _deletedAt?: Date;
+    }) {
       return this._deletedAt;
     };
 
-    constructor.prototype.setDeletedAt = function (value: Date) {
+    constructor.prototype.setDeletedAt = function (
+      this: { _deletedAt?: Date },
+      value: Date,
+    ) {
       this._deletedAt = value;
     };
   };
