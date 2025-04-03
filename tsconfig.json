@@ -15,7 +15,8 @@
       "@services/*": ["./domain/services/*"],
       "@application/*": ["./application/*"],
       "@components/*": ["./presentation/components/*"],
-      "@screens/*": ["./presentation/screens/*"]
+      "@screens/*": ["./presentation/screens/*"],
+      "@infra/*": ["./infra/*"]
     }
   }
 }
