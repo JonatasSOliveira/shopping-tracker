@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import { TABLE_KEY } from "./symbols";
 
 export function Model(tableName: string) {
