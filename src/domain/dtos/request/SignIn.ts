@@ -1,4 +1,4 @@
-import { Required } from "@decorators/Required";
+import { Required } from "@/decorators/Required";
 
 export class SignInRequestDTO {
   @Required

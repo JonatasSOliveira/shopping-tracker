@@ -1,4 +1,4 @@
-import { Model } from "@decorators/Model";
+import { Model } from "@/decorators/database/Model";
 
 @Model("user")
 export class User {

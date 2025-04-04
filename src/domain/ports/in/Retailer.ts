@@ -1,5 +1,5 @@
-import { RetailerCreateDto } from '@dtos/retailer/request/Create'
+import { RetailerCreateDTO } from "@/dtos/retailer/request/Create";
 
 export interface RetailerPortIn {
-  public create(data: RetailerCreateDto): Promise<string>
+  create(data: RetailerCreateDTO): Promise<string>;
 }

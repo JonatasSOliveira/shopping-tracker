@@ -6,17 +6,19 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "paths": {
-      "@decorators/*": ["./domain/decorators/*"],
-      "@models/*": ["./domain/models/*"],
-      "@dtos/*": ["./domain/dtos/*"],
-      "@ports/*": ["./domain/ports/*"],
-      "@types/*": ["./domain/types/*"],
-      "@adapters/*": ["./adapters/*"],
-      "@services/*": ["./domain/services/*"],
-      "@application/*": ["./application/*"],
-      "@components/*": ["./presentation/components/*"],
-      "@screens/*": ["./presentation/screens/*"],
-      "@infra/*": ["./infra/*"]
+      "@/decorators/*": ["./domain/decorators/*"],
+      "@/models/*": ["./domain/models/*"],
+      "@/dtos/*": ["./domain/dtos/*"],
+      "@/ports/*": ["./domain/ports/*"],
+      "@/types/*": ["./domain/types/*"],
+      "@/adapters/*": ["./adapters/*"],
+      "@/services/*": ["./domain/services/*"],
+      "@/application/*": ["./application/*"],
+      "@/components/*": ["./presentation/components/*"],
+      "@/screens/*": ["./presentation/screens/*"],
+      "@/infra/*": ["./infra/*"],
+      "@/routes/*": ["./presentation/routes/*"],
+      "@/hooks/*": ["./presentation/hooks/*"],
     }
   }
 }

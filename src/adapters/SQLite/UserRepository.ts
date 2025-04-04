@@ -1,6 +1,6 @@
-import { User } from "@models/User";
-import { UserRepository } from "@ports/out/UserRepository";
-import { Where } from "@types/repositories/Where";
+import { User } from "@/models/User";
+import { UserRepository } from "@/ports/out/UserRepository";
+import { Where } from "@/types/repositories/Where";
 
 export class SQLiteUserRepositoryAdapter implements UserRepository {
   create(data: Partial<User>): Promise<User> {

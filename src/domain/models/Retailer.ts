@@ -1,6 +1,7 @@
-import { Model } from "@decorators/Model";
+import { Model } from "@/decorators/database/Model";
+import { BaseModel } from "./Base";
 
-@Model('retailer')
-class Retailer {
-  private name: string = ''
+@Model("retailer")
+export class Retailer extends BaseModel {
+  private name: string = "";
 }

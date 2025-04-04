@@ -1,5 +1,5 @@
-import { RetailerCreateDto } from '@dtos/retailer/request/Create'
+import { Retailer } from "@/models/Retailer";
 
 export interface RetailerRepository {
-  public create(data: RetailerCreateDto): Promise<string>
+  create(data: Retailer): Promise<string>;
 }

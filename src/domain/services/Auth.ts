@@ -1,8 +1,8 @@
-import { SignInRequestDTO } from "@dtos/request/SignIn";
-import { SignUpRequestDTO } from "@dtos/request/SignUp";
-import { AuthPortIn } from "@ports/in/Auth";
-import { DTOValidatorMiddlewarePort } from "@ports/middleware/DTOValidator";
-import { UserRepository } from "@ports/out/UserRepository";
+import { SignInRequestDTO } from "@/dtos/request/SignIn";
+import { SignUpRequestDTO } from "@/dtos/request/SignUp";
+import { AuthPortIn } from "@/ports/in/Auth";
+import { DTOValidatorMiddlewarePort } from "@/ports/middleware/DTOValidator";
+import { UserRepository } from "@/ports/out/UserRepository";
 
 export class AuthService implements AuthPortIn {
   constructor(
