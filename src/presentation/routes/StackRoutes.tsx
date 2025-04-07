@@ -1,17 +1,19 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import LoginPage from "@/screens/Login/Page";
-import HomePage from "@/screens/Home/Page";
-import ScannerPage from "@/screens/Scanner/Page";
+import { RoutePaths, Routes } from "./Routes";
 
 const Stack = createStackNavigator();
 
 export default function StackRoutes() {
   return (
-    <Stack.Navigator initialRouteName="Login">
-      <Stack.Screen name="Login" component={LoginPage} />
-      <Stack.Screen name="Home" component={HomePage} />
-      <Stack.Screen name="Scanner" component={ScannerPage} />
+    <Stack.Navigator initialRouteName={RoutePaths.Home}>
+      {Routes.map((route) => (
+        <Stack.Screen
+          key={route.path}
+          name={route.path}
+          component={route.component}
+        />
+      ))}
     </Stack.Navigator>
   );
 }
