@@ -1,14 +1,20 @@
 import { Required } from "@/decorators/Required";
+import { BaseDTO } from "@/dtos/Base";
+import { Retailer } from "@/models/Retailer";
 
 interface RetailerCreateDTOProps {
   name: string;
 }
 
-export class RetailerCreateDTO implements RetailerCreateDTOProps {
+export class RetailerCreateDTO extends BaseDTO<RetailerCreateDTOProps> {
   @Required
-  public name: string;
+  public name: string = "";
 
-  constructor({ name }: RetailerCreateDTOProps) {
-    this.name = name;
+  constructor() {
+    super(Retailer.prototype);
+  }
+
+  public override updateDataFromObject(data: RetailerCreateDTOProps): void {
+    this.name = data.name;
   }
 }

@@ -1,28 +1,30 @@
 import React from "react";
-import { View, Button } from "react-native";
+import { Button } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "presentation/routes/RootStackParamList";
 import { RoutePaths } from "@/routes/RoutePaths";
-import InlineAd from "@/components/InlineAd/Component";
+import { AppLayout } from "@/components/AppLayout/Component";
 
-type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
+type HomePageNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  RoutePaths.Home
+>;
 
 type Props = {
-  navigation: HomeScreenNavigationProp;
+  navigation: HomePageNavigationProp;
 };
 
 export default function HomePage({ navigation }: Props) {
   return (
-    <View>
-      <InlineAd />
+    <AppLayout>
       <Button
         title="Abrir Scanner"
         onPress={() => navigation.navigate(RoutePaths.Scanner)}
       />
       <Button
-        title="Abrir tela de Comércios"
-        onPress={() => navigation.navigate(RoutePaths.Retailer)}
+        title="Comércios"
+        onPress={() => navigation.navigate(RoutePaths.RetailerList)}
       />
-    </View>
+    </AppLayout>
   );
 }

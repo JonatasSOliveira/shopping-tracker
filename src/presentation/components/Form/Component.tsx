@@ -1,18 +1,21 @@
+import { BaseDTO } from "@/dtos/Base";
 import React from "react";
 import { useForm, Controller, DefaultValues, Path } from "react-hook-form";
 import { Text, TextInput, View, Button } from "react-native";
 
-interface FormProps<T> {
+interface FormProps<T extends BaseDTO<any>> {
   data: T;
   onSubmit: (data: T) => void;
 }
 
-export const Form = <T extends object>({ data, onSubmit }: FormProps<T>) => {
+export const Form = <T extends BaseDTO<any>>({
+  data,
+  onSubmit,
+}: FormProps<T>) => {
   const { control, handleSubmit } = useForm<T>({
-    defaultValues: data as DefaultValues<T>, // Define os valores iniciais para os campos
+    defaultValues: data as DefaultValues<T>,
   });
 
-  // Função para pegar os metadados da classe
   const getFormFields = (data: T) => {
     const fields: { [key: string]: string } = {};
     for (const key of Object.keys(data)) {
@@ -30,7 +33,7 @@ export const Form = <T extends object>({ data, onSubmit }: FormProps<T>) => {
     <View>
       {Object.keys(fields).map((field) => (
         <View key={field}>
-          <Text>{field}</Text>
+          <Text>{data.getLabel(field)}</Text>
           <Controller
             control={control}
             name={field as Path<T>}
@@ -46,7 +49,13 @@ export const Form = <T extends object>({ data, onSubmit }: FormProps<T>) => {
           />
         </View>
       ))}
-      <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+      <Button
+        title="Submit"
+        onPress={handleSubmit((formData) => {
+          data.updateDataFromObject(formData);
+          onSubmit(data);
+        })}
+      />
     </View>
   );
 };

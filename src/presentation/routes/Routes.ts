@@ -1,31 +1,29 @@
 import HomePage from "@/screens/Home/Page";
 import LoginPage from "@/screens/Login/Page";
-import RetailerPage from "@/screens/Retailer/Page";
+import RetailerFormPage from "@/screens/Retailer/Form/Page";
 import ScannerPage from "@/screens/Scanner/Page";
+import { RoutePaths } from "./RoutePaths";
+import { RetailerListPage } from "@/screens/Retailer/List/Page";
 
 export const Routes = [
   {
-    path: "Home",
+    path: RoutePaths.Home,
     component: HomePage,
-    args: undefined,
-    initial: true,
   },
   {
-    path: "Scanner",
+    path: RoutePaths.Scanner,
     component: ScannerPage,
-    args: undefined,
-    initial: false,
   },
   {
-    path: "Login",
+    path: RoutePaths.Login,
     component: LoginPage,
-    args: undefined,
-    initial: false,
   },
   {
-    path: "Retailer",
-    component: RetailerPage,
-    args: undefined,
-    initial: false,
+    path: RoutePaths.RetailerForm,
+    component: RetailerFormPage,
+  },
+  {
+    path: RoutePaths.RetailerList,
+    component: RetailerListPage,
   },
 ] as const;

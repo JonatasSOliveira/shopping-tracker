@@ -1,6 +1,9 @@
+import { RoutePaths } from "./RoutePaths";
+
 export type RootStackParamList = {
-  Home: undefined;
-  Scanner: undefined;
-  Login: undefined;
-  Retailer: undefined;
+  [RoutePaths.Home]: undefined;
+  [RoutePaths.Scanner]: undefined;
+  [RoutePaths.Login]: undefined;
+  [RoutePaths.RetailerForm]: undefined;
+  [RoutePaths.RetailerList]: undefined;
 };
