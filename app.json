@@ -19,7 +19,14 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.dev.jonatas.oliveira.shoppingtracker"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -33,7 +40,18 @@
           "recordAudioAndroid": true
         }
       ],
-      "expo-sqlite"
+      "expo-sqlite",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-1975540236759378~4221231868",
+          "iosAppId": "ca-app-pub-1975540236759378~9517257741"
+        }
+      ]
     ]
+  },
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-1975540236759378~4221231868",
+    "ios_app_id": "ca-app-pub-1975540236759378~9517257741"
   }
 }

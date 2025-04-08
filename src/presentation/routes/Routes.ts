@@ -8,26 +8,24 @@ export const Routes = [
     path: "Home",
     component: HomePage,
     args: undefined,
+    initial: true,
   },
   {
     path: "Scanner",
     component: ScannerPage,
     args: undefined,
+    initial: false,
   },
   {
     path: "Login",
     component: LoginPage,
     args: undefined,
+    initial: false,
   },
   {
     path: "Retailer",
     component: RetailerPage,
     args: undefined,
+    initial: false,
   },
 ] as const;
-
-export type RoutePath = (typeof Routes)[number]["path"];
-
-export const RoutePaths: Record<RoutePath, RoutePath> = Object.fromEntries(
-  Routes.map((route) => [route.path, route.path]),
-) as Record<RoutePath, RoutePath>;
