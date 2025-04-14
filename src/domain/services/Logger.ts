@@ -10,7 +10,7 @@ export enum LogLevel {
 export class Logger {
   static async log(level: LogLevel, message: string, context?: unknown) {
     const timestamp = new Date().toISOString();
-    const formattedMessage = `[${timestamp}] [${level}]${context ? ` [${context}]` : ""}: ${message}`;
+    const formattedMessage = `[${timestamp}] [${level}] ${message}${context ? `: [${context}]` : ""}`;
     switch (level) {
       case LogLevel.INFO:
         console.log(chalk.blue(formattedMessage));

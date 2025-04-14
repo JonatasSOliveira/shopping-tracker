@@ -3,38 +3,51 @@ import { AppLayout } from "@/components/AppLayout/Component";
 import { Retailer } from "@/models/Retailer";
 import { RootStackParamList } from "@/routes/RootStackParamList";
 import { RoutePaths } from "@/routes/RoutePaths";
+import { useFocusEffect } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { useEffect, useState } from "react";
-import { Button, Text, View } from "react-native";
+import { useCallback, useState } from "react";
+import { Button, Text, TouchableOpacity, View } from "react-native";
 
 type RetailerListPageNavigationProp = StackNavigationProp<
   RootStackParamList,
   RoutePaths.RetailerList
 >;
 
-type Props = {
+type RetailerListPageProps = {
   navigation: RetailerListPageNavigationProp;
 };
 
 const retailerService = ServiceFacadeProvider.getLocal().getRetailerService();
 
-export const RetailerListPage = ({ navigation }: Props) => {
+export const RetailerListPage = ({ navigation }: RetailerListPageProps) => {
   const [retailers, setRetailers] = useState<Retailer[]>([]);
 
-  useEffect(() => {
-    retailerService.listAll().then((retailers) => {
-      setRetailers(retailers);
-    });
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchRetailers = async () => {
+        const result = await retailerService.listAll();
+        setRetailers(result);
+      };
+
+      fetchRetailers();
+    }, []),
+  );
 
   return (
     <AppLayout>
       <Text>Lista de Comércios</Text>
       <View style={{ flex: 1 }}>
         {retailers.map((retailer) => (
-          <View key={retailer.getId()}>
+          <TouchableOpacity
+            key={retailer.getId()}
+            onPress={() =>
+              navigation.navigate(RoutePaths.RetailerForm, {
+                id: retailer.getId(),
+              })
+            }
+          >
             <Text>{retailer.getName()}</Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
       <Button

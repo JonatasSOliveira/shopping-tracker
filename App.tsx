@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import "react-native-get-random-values";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import StackRoutes from "@/routes/StackRoutes";
