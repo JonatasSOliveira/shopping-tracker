@@ -1,4 +1,6 @@
 import { Field } from "@/decorators/database/Field";
+import { NotNull } from "@/decorators/database/NotNull";
+import { PrimaryKey } from "@/decorators/database/PrimaryKey";
 
 export interface BaseModelFields {
   id?: string;
@@ -9,12 +11,15 @@ export interface BaseModelFields {
 
 export abstract class BaseModel {
   @Field()
+  @PrimaryKey()
   protected id: string = "";
 
   @Field()
+  @NotNull()
   protected createdAt: Date = new Date();
 
   @Field()
+  @NotNull()
   protected updatedAt: Date = new Date();
 
   @Field()

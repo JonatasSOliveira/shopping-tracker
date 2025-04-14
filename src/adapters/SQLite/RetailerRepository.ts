@@ -9,7 +9,7 @@ import { RetailerMapper } from "domain/mappers/Retailer";
 export class SQLiteRetailerRepositoryAdapter implements RetailerRepository {
   constructor(private sqliteQueryExecutor: SQLiteQueryExecutor) {}
 
-  public async create(data: Partial<Retailer>): Promise<string> {
+  public async create(data: Retailer): Promise<string> {
     Logger.log(LogLevel.INFO, "[SQLiteRetailerRepository] Creating retailer");
     const id = await this.sqliteQueryExecutor.insert<Retailer>(
       getTableName(Retailer),
@@ -21,16 +21,20 @@ export class SQLiteRetailerRepositoryAdapter implements RetailerRepository {
       `[SQLiteRetailerRepository] Retailer created with id ${id}`,
     );
 
-    return id.toString();
+    return id;
   }
 
-  public async listAll(): Promise<Retailer[]> {
+  public async listAll(options?: {
+    where?: Where<RetailerFields>;
+  }): Promise<Retailer[]> {
     Logger.log(
       LogLevel.INFO,
-      "[SQLiteRetailerRepository] Listing all retailers",
+      "[SQLiteRetailerRepository] Listing all retailers with options " +
+        JSON.stringify(options),
     );
     const results = await this.sqliteQueryExecutor.select<RetailerFields>(
       getTableName(Retailer),
+      options?.where,
     );
 
     Logger.log(
@@ -43,9 +47,9 @@ export class SQLiteRetailerRepositoryAdapter implements RetailerRepository {
 
   public async update(
     data: Partial<Retailer>,
-    where: Where<Retailer>,
+    where: Where<RetailerFields>,
   ): Promise<void> {
-    await this.sqliteQueryExecutor.update<Retailer>(
+    await this.sqliteQueryExecutor.update<Retailer, RetailerFields>(
       getTableName(Retailer),
       data,
       where,

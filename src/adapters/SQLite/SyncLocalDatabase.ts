@@ -1,5 +1,7 @@
 import { FieldData, getModelFields } from "@/decorators/database/Field";
 import { getTableName } from "@/decorators/database/Model";
+import { isNotNull } from "@/decorators/database/NotNull";
+import { isPrimaryKey } from "@/decorators/database/PrimaryKey";
 import { allModels } from "@/infra/orm/ModelRegistry";
 import { SQLiteProvider } from "@/infra/SQLite/Provider";
 import { SyncLocalDatabasePortOut } from "@/ports/out/SyncLocalDatabase";
@@ -35,8 +37,11 @@ export class SQLiteSyncLocalDatabase implements SyncLocalDatabasePortOut {
         const existingColumns = await this.getExistingColumns(db, table);
 
         if (existingColumns.length === 0) {
-          const sql = this.generateCreateTableSQL(table, fields);
-          Logger.log(LogLevel.DEBUG, sql);
+          const sql = this.generateCreateTableSQL(model, table, fields);
+          Logger.log(
+            LogLevel.DEBUG,
+            `[SQLiteSyncLocalDatabase] Executing '${sql}'`,
+          );
           await db.execAsync(sql);
           Logger.log(LogLevel.INFO, `Table ${table} created`);
         } else {
@@ -74,16 +79,33 @@ export class SQLiteSyncLocalDatabase implements SyncLocalDatabasePortOut {
         const sql = `ALTER TABLE ${table} ADD COLUMN ${field.name} ${this.mapType(
           field.type,
         )};`;
-        Logger.log(LogLevel.DEBUG, sql);
+        Logger.log(
+          LogLevel.DEBUG,
+          `[SQLiteSyncLocalDatabase] Executing '${sql}'`,
+        );
         await db.execAsync(sql);
       }
     }
   }
 
-  private generateCreateTableSQL(table: string, fields: FieldData[]): string {
-    const fieldDefs = fields
-      .map((f) => `${f.name} ${this.mapType(f.type)}`)
-      .join(", ");
-    return `CREATE TABLE IF NOT EXISTS ${table} (${fieldDefs});`;
+  private generateCreateTableSQL(
+    model: any,
+    table: string,
+    fields: FieldData[],
+  ): string {
+    const fieldDefs = fields.map((f) => {
+      const baseType = this.mapType(f.type);
+      const modifiers: string[] = [];
+
+      if (isPrimaryKey(model.prototype, f.name)) {
+        modifiers.push("PRIMARY KEY");
+      } else if (isNotNull(model.prototype, f.name)) {
+        modifiers.push("NOT NULL");
+      }
+
+      return `${f.name} ${baseType} ${modifiers.join(" ")}`.trim();
+    });
+
+    return `CREATE TABLE IF NOT EXISTS ${table} (${fieldDefs.join(", ")});`;
   }
 }
