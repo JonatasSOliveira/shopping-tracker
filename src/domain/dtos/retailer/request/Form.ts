@@ -1,10 +1,8 @@
 import { Required } from "@/decorators/Required";
 import { BaseDTO } from "@/dtos/Base";
-import { Retailer } from "@/models/Retailer";
+import { Retailer, RetailerFields } from "@/models/Retailer";
 
-interface RetailerFormDTOProps {
-  name: string;
-}
+type RetailerFormDTOProps = Required<Pick<RetailerFields, "name">>;
 
 export class RetailerFormDTO extends BaseDTO<RetailerFormDTOProps> {
   @Required

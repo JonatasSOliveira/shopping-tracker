@@ -4,4 +4,6 @@ export enum RoutePaths {
   Login = "Login",
   RetailerForm = "RetailerForm",
   RetailerList = "RetailerList",
+  ProductList = "ProductList",
+  ProductForm = "ProductForm",
 }

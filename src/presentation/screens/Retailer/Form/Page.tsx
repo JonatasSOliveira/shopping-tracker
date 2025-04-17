@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { View, ActivityIndicator } from "react-native";
 import { RetailerFormDTO } from "@/dtos/retailer/request/Form";
-import { Form } from "@/components/Form/Component";
+import { Form } from "@/components/organism/Form/Component";
 import { ServiceFacadeProvider } from "@/application/ServiceFacadeProvider";
-import { AppLayout } from "@/components/AppLayout/Component";
 import { RootStackParamList } from "@/routes/RootStackParamList";
 import { RoutePaths } from "@/routes/RoutePaths";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { RetailerMapper } from "domain/mappers/Retailer";
+import { AppLayout } from "@/components/template/AppLayout/Component";
 
 type RetailerFormPageNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -34,7 +34,7 @@ export default function RetailerFormPage({
   useEffect(() => {
     if (id) {
       retailerService.findById(id).then((retailer) => {
-        setFormData(RetailerMapper.toCreateDTO(retailer));
+        setFormData(new RetailerMapper().toDTO(retailer));
         setLoading(false);
       });
     } else {

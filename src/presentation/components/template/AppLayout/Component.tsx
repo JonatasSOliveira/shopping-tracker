@@ -1,5 +1,5 @@
+import InlineAd from "@/components/atom/InlineAd/Component";
 import { View } from "react-native";
-import InlineAd from "../InlineAd/Component";
 
 // AppLayout.tsx
 export const AppLayout = ({ children }: { children: React.ReactNode }) => {

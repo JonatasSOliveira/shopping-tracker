@@ -3,7 +3,7 @@ import { Button } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "presentation/routes/RootStackParamList";
 import { RoutePaths } from "@/routes/RoutePaths";
-import { AppLayout } from "@/components/AppLayout/Component";
+import { AppLayout } from "@/components/template/AppLayout/Component";
 
 type HomePageNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -24,6 +24,10 @@ export default function HomePage({ navigation }: Props) {
       <Button
         title="Comércios"
         onPress={() => navigation.navigate(RoutePaths.RetailerList)}
+      />
+      <Button
+        title="Produtos"
+        onPress={() => navigation.navigate(RoutePaths.ProductList)}
       />
     </AppLayout>
   );

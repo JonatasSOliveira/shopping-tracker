@@ -9,20 +9,32 @@ export interface FieldData {
 export function Field(): PropertyDecorator {
   return function (target, propertyKey) {
     const constructor = target.constructor;
-    const fields: { name: string; type: string }[] =
-      Reflect.getMetadata(FIELDS_KEY, constructor) || [];
+
+    const ownFields: FieldData[] =
+      Reflect.getOwnMetadata(FIELDS_KEY, constructor) || [];
 
     const type = Reflect.getMetadata("design:type", target, propertyKey);
 
-    fields.push({
+    ownFields.push({
       name: propertyKey.toString(),
       type: type.name.toLowerCase(),
     });
 
-    Reflect.defineMetadata(FIELDS_KEY, fields, constructor);
+    Reflect.defineMetadata(FIELDS_KEY, ownFields, constructor);
   };
 }
 
 export function getModelFields(target: Function): FieldData[] {
-  return Reflect.getMetadata(FIELDS_KEY, target) || [];
+  const allFields: FieldData[] = [];
+
+  let current = target;
+
+  while (current && current !== Object) {
+    const fields: FieldData[] =
+      Reflect.getOwnMetadata(FIELDS_KEY, current) || [];
+    allFields.push(...fields);
+    current = Object.getPrototypeOf(current);
+  }
+
+  return allFields;
 }

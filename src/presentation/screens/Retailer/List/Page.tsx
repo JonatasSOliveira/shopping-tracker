@@ -1,59 +1,32 @@
-import { ServiceFacadeProvider } from "@/application/ServiceFacadeProvider";
-import { AppLayout } from "@/components/AppLayout/Component";
-import { Retailer } from "@/models/Retailer";
-import { RootStackParamList } from "@/routes/RootStackParamList";
 import { RoutePaths } from "@/routes/RoutePaths";
-import { useFocusEffect } from "@react-navigation/native";
+import { RootStackParamList } from "@/routes/RootStackParamList";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { useCallback, useState } from "react";
-import { Button, Text, TouchableOpacity, View } from "react-native";
+import { ListPageTemplate } from "@/components/template/ListPageTemplate/Component";
+import { ServiceFacadeProvider } from "@/application/ServiceFacadeProvider";
+import { Retailer } from "@/models/Retailer";
 
 type RetailerListPageNavigationProp = StackNavigationProp<
   RootStackParamList,
   RoutePaths.RetailerList
 >;
 
-type RetailerListPageProps = {
+type Props = {
   navigation: RetailerListPageNavigationProp;
 };
 
 const retailerService = ServiceFacadeProvider.getLocal().getRetailerService();
 
-export const RetailerListPage = ({ navigation }: RetailerListPageProps) => {
-  const [retailers, setRetailers] = useState<Retailer[]>([]);
-
-  useFocusEffect(
-    useCallback(() => {
-      const fetchRetailers = async () => {
-        const result = await retailerService.listAll();
-        setRetailers(result);
-      };
-
-      fetchRetailers();
-    }, []),
-  );
-
+export const RetailerListPage = ({ navigation }: Props) => {
   return (
-    <AppLayout>
-      <Text>Lista de Comércios</Text>
-      <View style={{ flex: 1 }}>
-        {retailers.map((retailer) => (
-          <TouchableOpacity
-            key={retailer.getId()}
-            onPress={() =>
-              navigation.navigate(RoutePaths.RetailerForm, {
-                id: retailer.getId(),
-              })
-            }
-          >
-            <Text>{retailer.getName()}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-      <Button
-        title="Novo Comércio"
-        onPress={() => navigation.navigate(RoutePaths.RetailerForm)}
-      />
-    </AppLayout>
+    <ListPageTemplate<Retailer>
+      title="Lista de Comércios"
+      fetchItems={() => retailerService.listAll()}
+      onPressAdd={() => navigation.navigate(RoutePaths.RetailerForm)}
+      addButtonLabel="Novo Comércio"
+      getItemTitle={(item) => item.getName()}
+      onPressItem={(item) =>
+        navigation.navigate(RoutePaths.RetailerForm, { id: item.getId() })
+      }
+    />
   );
 };

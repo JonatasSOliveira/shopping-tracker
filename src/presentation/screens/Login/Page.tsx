@@ -1,6 +1,6 @@
 import { View, Alert } from "react-native";
 import React from "react";
-import { Form } from "@/components/Form/Component";
+import { Form } from "@/components/organism/Form/Component";
 import { SignInRequestDTO } from "@/dtos/request/SignIn";
 
 export default function LoginPage() {
