@@ -1,53 +1,53 @@
 import React, { useEffect, useState } from "react";
 import { View, ActivityIndicator } from "react-native";
-import { RetailerFormDTO } from "@/dtos/retailer/request/Form";
+import { ProductFormDTO } from "@/dtos/product/request/Form";
 import { Form } from "@/components/organism/Form/Component";
 import { ServiceFacadeProvider } from "@/application/ServiceFacadeProvider";
 import { RootStackParamList } from "@/routes/RootStackParamList";
 import { RoutePaths } from "@/routes/RoutePaths";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { RetailerMapper } from "domain/mappers/Retailer";
+import { ProductMapper } from "domain/mappers/Product";
 import { AppLayout } from "@/components/template/AppLayout/Component";
 
-type RetailerFormPageNavigationProp = StackNavigationProp<
+type ProductFormPageNavigationProp = StackNavigationProp<
   RootStackParamList,
-  RoutePaths.RetailerForm
+  RoutePaths.ProductForm
 >;
 
-type RetailerFormPageProps = {
-  navigation: RetailerFormPageNavigationProp;
+type ProductFormPageProps = {
+  navigation: ProductFormPageNavigationProp;
 };
 
-const retailerService = ServiceFacadeProvider.getLocal().getRetailerService();
+const productService = ServiceFacadeProvider.getLocal().getProductService();
 
-export function RetailerFormPage({
+export function ProductFormPage({
   navigation,
-}: RetailerFormPageProps) {
+}: ProductFormPageProps) {
   const route =
-    useRoute<RouteProp<RootStackParamList, RoutePaths.RetailerForm>>();
-  const [formData, setFormData] = useState<RetailerFormDTO | null>(null);
+    useRoute<RouteProp<RootStackParamList, RoutePaths.ProductForm>>();
+  const [formData, setFormData] = useState<ProductFormDTO | null>(null);
   const [loading, setLoading] = useState<boolean>(!!route.params?.id);
 
   const id = route.params?.id;
 
   useEffect(() => {
     if (id) {
-      retailerService.findById(id).then((retailer) => {
-        setFormData(new RetailerMapper().toDTO(retailer));
+      productService.findById(id).then((product) => {
+        setFormData(new ProductMapper().toDTO(product));
         setLoading(false);
       });
     } else {
-      setFormData(new RetailerFormDTO());
+      setFormData(new ProductFormDTO());
       setLoading(false);
     }
   }, [id]);
 
-  const handleSubmit = async (data: RetailerFormDTO) => {
+  const handleSubmit = async (data: ProductFormDTO) => {
     if (id) {
-      await retailerService.update(data, id);
+      await productService.update(data, id);
     } else {
-      await retailerService.create(data);
+      await productService.create(data);
     }
     navigation.goBack();
   };

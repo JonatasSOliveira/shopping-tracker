@@ -50,7 +50,7 @@ export const Form = <T extends BaseDTO<any>>({
         </View>
       ))}
       <Button
-        title="Submit"
+        title="Salvar"
         onPress={handleSubmit((formData) => {
           data.updateDataFromObject(formData);
           onSubmit(data);

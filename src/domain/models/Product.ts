@@ -38,8 +38,9 @@ export class Product extends BaseModel {
     this.imageUrl = data.imageUrl;
   }
 
-  public getName = () => this.name;
-  public getBarCode = () => this.barCode;
-  public getBrand = () => this.brand;
-  public getImageUrl = () => this.imageUrl;
+  public getName() { return this.name; }
+  public getBarCode() { return this.barCode; }
+  public getBrand() { return this.brand; }
+  public getImageUrl() { return this.imageUrl; }
+  
 }

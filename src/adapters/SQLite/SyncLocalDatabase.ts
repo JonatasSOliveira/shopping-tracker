@@ -2,6 +2,7 @@ import { FieldData, getModelFields } from "@/decorators/database/Field";
 import { getTableName } from "@/decorators/database/Model";
 import { isNotNull } from "@/decorators/database/NotNull";
 import { isPrimaryKey } from "@/decorators/database/PrimaryKey";
+import { getForeignKey } from "@/decorators/database/ForeignKey";
 import { allModels } from "@/infra/orm/ModelRegistry";
 import { SQLiteProvider } from "@/infra/SQLite/Provider";
 import { SyncLocalDatabasePortOut } from "@/ports/out/SyncLocalDatabase";
@@ -38,10 +39,7 @@ export class SQLiteSyncLocalDatabase implements SyncLocalDatabasePortOut {
 
         if (existingColumns.length === 0) {
           const sql = this.generateCreateTableSQL(model, table, fields);
-          Logger.log(
-            LogLevel.DEBUG,
-            `[SQLiteSyncLocalDatabase] Executing '${sql}'`,
-          );
+          Logger.log(LogLevel.DEBUG, `[SQLiteSyncLocalDatabase] Executing '${sql}'`);
           await db.execAsync(sql);
           Logger.log(LogLevel.INFO, `Table ${table} created`);
         } else {
@@ -76,16 +74,34 @@ export class SQLiteSyncLocalDatabase implements SyncLocalDatabasePortOut {
   ): Promise<void> {
     for (const field of fields) {
       if (!existingColumns.includes(field.name)) {
-        const sql = `ALTER TABLE ${table} ADD COLUMN ${field.name} ${this.mapType(
-          field.type,
-        )};`;
-        Logger.log(
-          LogLevel.DEBUG,
-          `[SQLiteSyncLocalDatabase] Executing '${sql}'`,
-        );
-        await db.execAsync(sql);
+        const foreignKey = getForeignKey(db, field.name);
+        if (foreignKey) {
+          await this.addForeignKey(db, table, field, foreignKey);
+        } else {
+          const sql = `ALTER TABLE ${table} ADD COLUMN ${field.name} ${this.mapType(field.type)};`;
+          Logger.log(LogLevel.DEBUG, `[SQLiteSyncLocalDatabase] Executing '${sql}'`);
+          await db.execAsync(sql);
+        }
       }
     }
+  }
+
+  private async addForeignKey(
+    db: SQLite.SQLiteDatabase,
+    table: string,
+    field: FieldData,
+    foreignKey: any
+  ): Promise<void> {
+    const referencedTable = getTableName(foreignKey.referencedModel());
+    const sql = `ALTER TABLE ${table} ADD COLUMN ${field.name} ${this.mapType(field.type)};`;
+    Logger.log(LogLevel.DEBUG, `[SQLiteSyncLocalDatabase] Executing '${sql}'`);
+    await db.execAsync(sql);
+
+    const addForeignKeySql = `PRAGMA foreign_keys = ON; 
+      ALTER TABLE ${table} ADD CONSTRAINT fk_${table}_${field.name} FOREIGN KEY (${field.name}) REFERENCES ${referencedTable}(id);`;
+
+    Logger.log(LogLevel.DEBUG, `[SQLiteSyncLocalDatabase] Executing '${addForeignKeySql}'`);
+    await db.execAsync(addForeignKeySql);
   }
 
   private generateCreateTableSQL(
@@ -101,6 +117,12 @@ export class SQLiteSyncLocalDatabase implements SyncLocalDatabasePortOut {
         modifiers.push("PRIMARY KEY");
       } else if (isNotNull(model.prototype, f.name)) {
         modifiers.push("NOT NULL");
+      }
+
+      const foreignKey = getForeignKey(model.prototype, f.name);
+      if (foreignKey) {
+        const referencedTable = getTableName(foreignKey.referencedModel());
+        modifiers.push(`REFERENCES ${referencedTable}(id)`);
       }
 
       return `${f.name} ${baseType} ${modifiers.join(" ")}`.trim();

@@ -9,11 +9,11 @@ export class ProductMapper
     return new Product(data);
   }
 
-  fromFields(data: ProductFields): Product {
+  public fromFields(data: ProductFields): Product {
     return new Product(data);
   }
 
-  toDTO(model: Product): ProductFormDTO {
+  public toDTO(model: Product): ProductFormDTO {
     const createDTO = new ProductFormDTO();
     createDTO.updateDataFromObject({
       brand: model.getBrand() || "",
