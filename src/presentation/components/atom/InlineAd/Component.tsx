@@ -1,19 +1,23 @@
-import { View } from "react-native";
-// import * as Device from "expo-device";
 import React, { useState } from "react";
-import {
-  BannerAd,
-  BannerAdSize,
-  TestIds,
-} from "react-native-google-mobile-ads";
+import { View } from "react-native";
+import Constants from "expo-constants";
 
-// const iosAdmobBanner = "ca-app-pub-12345678910/12345678910";
-// const androidAdmobBanner = "ca-app-pub-12345678910/12345678910";
-// const productionID =
-//   Device.osName === "Android" ? androidAdmobBanner : iosAdmobBanner;
+let BannerAd, BannerAdSize, TestIds;
+
+const isStandaloneApp = Constants.appOwnership === "standalone";
+
+if (isStandaloneApp) {
+  const ads = require("react-native-google-mobile-ads");
+  BannerAd = ads.BannerAd;
+  BannerAdSize = ads.BannerAdSize;
+  TestIds = ads.TestIds;
+}
 
 const InlineAd = () => {
-  const [isAdLoaded, setIsAdLoaded] = useState<boolean>(false);
+  const [isAdLoaded, setIsAdLoaded] = useState(false);
+
+  if (!isStandaloneApp) return null;
+
   return (
     <View style={{ height: isAdLoaded ? "auto" : 0 }}>
       <BannerAd
