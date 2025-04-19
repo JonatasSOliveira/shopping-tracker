@@ -14,7 +14,7 @@ type Props = {
   navigation: HomePageNavigationProp;
 };
 
-export default function HomePage({ navigation }: Props) {
+export function HomePage({ navigation }: Props) {
   return (
     <AppLayout>
       <Button
@@ -28,6 +28,10 @@ export default function HomePage({ navigation }: Props) {
       <Button
         title="Produtos"
         onPress={() => navigation.navigate(RoutePaths.ProductList)}
+      />
+      <Button
+        title="Compras"
+        onPress={() => navigation.navigate(RoutePaths.PurchaseList)}
       />
     </AppLayout>
   );
