@@ -18,4 +18,10 @@ export class RetailerMapper
   public fromFields(data: RetailerFields): Retailer {
     return new Retailer(data);
   }
+
+  public toFields(model: Retailer): RetailerFields {
+    return {
+      name: model.getName(),
+    };
+  }
 }

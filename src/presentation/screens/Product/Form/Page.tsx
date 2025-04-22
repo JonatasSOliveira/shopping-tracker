@@ -19,7 +19,7 @@ type ProductFormPageProps = {
   navigation: ProductFormPageNavigationProp;
 };
 
-const productService = ServiceFacadeProvider.getLocal().getProductService();
+const productService = ServiceFacadeProvider.getCloud().getProductService();
 
 export function ProductFormPage({ navigation }: ProductFormPageProps) {
   const route =

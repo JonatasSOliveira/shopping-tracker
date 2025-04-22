@@ -22,4 +22,13 @@ export class ProductMapper
     });
     return createDTO;
   }
+
+  public toFields(model: Product): ProductFields {
+    return {
+      name: model.getName(),
+      barCode: model.getBarCode(),
+      brand: model.getBrand(),
+      imageUrl: model.getImageUrl(),
+    };
+  }
 }

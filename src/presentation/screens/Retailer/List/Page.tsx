@@ -14,7 +14,7 @@ type Props = {
   navigation: RetailerListPageNavigationProp;
 };
 
-const retailerService = ServiceFacadeProvider.getLocal().getRetailerService();
+const retailerService = ServiceFacadeProvider.getCloud().getRetailerService();
 
 export const RetailerListPage = ({ navigation }: Props) => {
   return (

@@ -53,10 +53,7 @@ export class SQLiteBaseRepositoryAdapter<
     return results.map(this.mapper.fromFields);
   }
 
-  public async update(
-    data: Partial<Model>,
-    where: Where<Fields>,
-  ): Promise<void> {
+  public async update(data: Model, where: Where<Fields>): Promise<void> {
     await this.sqliteQueryExecutor.update<Model, Fields>(
       getTableName(this.modelClass),
       data,

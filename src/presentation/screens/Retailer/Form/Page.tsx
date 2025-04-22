@@ -19,7 +19,7 @@ type RetailerFormPageProps = {
   navigation: RetailerFormPageNavigationProp;
 };
 
-const retailerService = ServiceFacadeProvider.getLocal().getRetailerService();
+const retailerService = ServiceFacadeProvider.getCloud().getRetailerService();
 
 export function RetailerFormPage({ navigation }: RetailerFormPageProps) {
   const route =

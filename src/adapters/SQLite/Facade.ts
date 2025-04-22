@@ -1,6 +1,5 @@
 import { SQLiteQueryExecutor } from "@/infra/SQLite/QueryExecutor";
 import { SQLiteRetailerRepositoryAdapter } from "./RetailerRepository";
-import { SQLiteUserRepositoryAdapter } from "./UserRepository";
 import { SQLiteProductRepositoryAdapter } from "./ProductRepository";
 import { SQLitePurchaseRepositoryAdapter } from "./PurchaseRepository";
 import { AdaptersFacadePortOut } from "@/ports/out/AdaptersFacade";
@@ -17,8 +16,6 @@ export class SQLiteAdaptersFacade implements AdaptersFacadePortOut {
     new RetailerMapper(),
   );
 
-  private userRepository = new SQLiteUserRepositoryAdapter();
-
   private productRepository = new SQLiteProductRepositoryAdapter(
     this.sqliteQueryExecutor,
     new ProductMapper(),
@@ -32,9 +29,7 @@ export class SQLiteAdaptersFacade implements AdaptersFacadePortOut {
   public getRetailerRepository() {
     return this.retailerRepository;
   }
-  public getUserRepository() {
-    return this.userRepository;
-  }
+
   public getProductRepository() {
     return this.productRepository;
   }

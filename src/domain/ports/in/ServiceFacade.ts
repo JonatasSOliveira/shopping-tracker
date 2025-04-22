@@ -1,9 +1,11 @@
-import { AuthPortIn } from "./Auth";
+import { ProductPortIn } from "./Product";
+import { PurchasePortIn } from "./Purchase";
 import { RetailerPortIn } from "./Retailer";
 import { SyncLocalDataPortIn } from "./SyncLocalData";
 
 export interface ServiceFacadePortIn {
   getRetailerService(): RetailerPortIn;
-  getAuth(): AuthPortIn;
   getSyncLocalData(): SyncLocalDataPortIn;
+  getProductService(): ProductPortIn;
+  getPurchaseService(): PurchasePortIn;
 }

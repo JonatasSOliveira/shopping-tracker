@@ -14,7 +14,7 @@ type Props = {
   navigation: PurchaseListPageNavigationProp;
 };
 
-const purchaseService = ServiceFacadeProvider.getLocal().getPurchaseService();
+const purchaseService = ServiceFacadeProvider.getCloud().getPurchaseService();
 
 export const PurchaseListPage = ({ navigation }: Props) => {
   return (

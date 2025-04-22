@@ -22,4 +22,12 @@ export class PurchaseMapper
   public fromFields(data: PurchaseFields): Purchase {
     return new Purchase(data);
   }
+
+  public toFields(model: Purchase): PurchaseFields {
+    return {
+      retailerId: model.getRetailerId(),
+      total: model.getTotal(),
+      date: model.getDate(),
+    };
+  }
 }

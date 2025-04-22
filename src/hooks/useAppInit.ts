@@ -6,7 +6,7 @@ export function useAppInit() {
   const [isReady, setReady] = useState(false);
 
   useEffect(() => {
-    const isStandaloneApp = Constants.appOwnership === "standalone";
+    const isStandaloneApp = Constants.ExecutionEnvironment === "standalone";
 
     const promises = [
       ServiceFacadeProvider.getLocal().getSyncLocalData().syncData(),
