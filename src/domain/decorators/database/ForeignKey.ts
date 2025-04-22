@@ -19,11 +19,16 @@ export function ForeignKey(referencedModel: () => Function): PropertyDecorator {
   };
 }
 
-export function getForeignKeys(target: Function): Record<string, ForeignKeyData> {
+export function getForeignKeys(
+  target: Function,
+): Record<string, ForeignKeyData> {
   return Reflect.getMetadata(FOREIGN_KEY, target) || {};
 }
 
-export function getForeignKey(target: any, propertyKey: string): ForeignKeyData | null {
+export function getForeignKey(
+  target: any,
+  propertyKey: string,
+): ForeignKeyData | null {
   const foreignKeys = getForeignKeys(target.constructor);
   return foreignKeys[propertyKey] || null;
 }

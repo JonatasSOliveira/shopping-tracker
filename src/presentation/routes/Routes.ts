@@ -40,5 +40,5 @@ export const Routes = [
   {
     path: RoutePaths.PurchaseList,
     component: PurchaseListPage,
-  }
+  },
 ] as const;

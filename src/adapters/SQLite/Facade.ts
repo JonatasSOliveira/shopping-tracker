@@ -29,8 +29,16 @@ export class SQLiteAdaptersFacade implements AdaptersFacadePortOut {
     new PurchaseMapper(),
   );
 
-  public getRetailerRepository() { return this.retailerRepository; }
-  public getUserRepository() { return this.userRepository; }
-  public getProductRepository() { return this.productRepository; }
-  public getPurchaseRepository() { return this.purchaseRepository; }
+  public getRetailerRepository() {
+    return this.retailerRepository;
+  }
+  public getUserRepository() {
+    return this.userRepository;
+  }
+  public getProductRepository() {
+    return this.productRepository;
+  }
+  public getPurchaseRepository() {
+    return this.purchaseRepository;
+  }
 }

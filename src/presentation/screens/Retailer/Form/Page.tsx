@@ -21,9 +21,7 @@ type RetailerFormPageProps = {
 
 const retailerService = ServiceFacadeProvider.getLocal().getRetailerService();
 
-export function RetailerFormPage({
-  navigation,
-}: RetailerFormPageProps) {
+export function RetailerFormPage({ navigation }: RetailerFormPageProps) {
   const route =
     useRoute<RouteProp<RootStackParamList, RoutePaths.RetailerForm>>();
   const [formData, setFormData] = useState<RetailerFormDTO | null>(null);

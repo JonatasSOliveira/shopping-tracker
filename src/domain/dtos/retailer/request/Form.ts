@@ -4,7 +4,10 @@ import { Retailer, RetailerFields } from "@/models/Retailer";
 
 type RetailerFormDTOProps = Required<Pick<RetailerFields, "name">>;
 
-export class RetailerFormDTO extends BaseDTO<RetailerFormDTOProps> implements RetailerFormDTOProps {
+export class RetailerFormDTO
+  extends BaseDTO<RetailerFormDTOProps>
+  implements RetailerFormDTOProps
+{
   @Required
   public name: string = "";
 

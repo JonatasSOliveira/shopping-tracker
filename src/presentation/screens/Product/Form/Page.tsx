@@ -21,9 +21,7 @@ type ProductFormPageProps = {
 
 const productService = ServiceFacadeProvider.getLocal().getProductService();
 
-export function ProductFormPage({
-  navigation,
-}: ProductFormPageProps) {
+export function ProductFormPage({ navigation }: ProductFormPageProps) {
   const route =
     useRoute<RouteProp<RootStackParamList, RoutePaths.ProductForm>>();
   const [formData, setFormData] = useState<ProductFormDTO | null>(null);

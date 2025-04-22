@@ -37,7 +37,13 @@ export class Purchase extends BaseModel {
     this.date = data.date ?? new Date();
   }
 
-  public getRetailerId() { return this.retailerId; }
-  public getTotal() { return this.total; }
-  public getDate() { return this.date; }
+  public getRetailerId() {
+    return this.retailerId;
+  }
+  public getTotal() {
+    return this.total;
+  }
+  public getDate() {
+    return this.date;
+  }
 }

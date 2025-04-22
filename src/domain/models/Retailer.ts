@@ -20,5 +20,7 @@ export class Retailer extends BaseModel {
     this.name = data.name ?? "";
   }
 
-  public getName(): string { return this.name; }
+  public getName(): string {
+    return this.name;
+  }
 }

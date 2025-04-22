@@ -39,7 +39,10 @@ export class SQLiteSyncLocalDatabase implements SyncLocalDatabasePortOut {
 
         if (existingColumns.length === 0) {
           const sql = this.generateCreateTableSQL(model, table, fields);
-          Logger.log(LogLevel.DEBUG, `[SQLiteSyncLocalDatabase] Executing '${sql}'`);
+          Logger.log(
+            LogLevel.DEBUG,
+            `[SQLiteSyncLocalDatabase] Executing '${sql}'`,
+          );
           await db.execAsync(sql);
           Logger.log(LogLevel.INFO, `Table ${table} created`);
         } else {
@@ -79,7 +82,10 @@ export class SQLiteSyncLocalDatabase implements SyncLocalDatabasePortOut {
           await this.addForeignKey(db, table, field, foreignKey);
         } else {
           const sql = `ALTER TABLE ${table} ADD COLUMN ${field.name} ${this.mapType(field.type)};`;
-          Logger.log(LogLevel.DEBUG, `[SQLiteSyncLocalDatabase] Executing '${sql}'`);
+          Logger.log(
+            LogLevel.DEBUG,
+            `[SQLiteSyncLocalDatabase] Executing '${sql}'`,
+          );
           await db.execAsync(sql);
         }
       }
@@ -90,7 +96,7 @@ export class SQLiteSyncLocalDatabase implements SyncLocalDatabasePortOut {
     db: SQLite.SQLiteDatabase,
     table: string,
     field: FieldData,
-    foreignKey: any
+    foreignKey: any,
   ): Promise<void> {
     const referencedTable = getTableName(foreignKey.referencedModel());
     const sql = `ALTER TABLE ${table} ADD COLUMN ${field.name} ${this.mapType(field.type)};`;
@@ -100,7 +106,10 @@ export class SQLiteSyncLocalDatabase implements SyncLocalDatabasePortOut {
     const addForeignKeySql = `PRAGMA foreign_keys = ON; 
       ALTER TABLE ${table} ADD CONSTRAINT fk_${table}_${field.name} FOREIGN KEY (${field.name}) REFERENCES ${referencedTable}(id);`;
 
-    Logger.log(LogLevel.DEBUG, `[SQLiteSyncLocalDatabase] Executing '${addForeignKeySql}'`);
+    Logger.log(
+      LogLevel.DEBUG,
+      `[SQLiteSyncLocalDatabase] Executing '${addForeignKeySql}'`,
+    );
     await db.execAsync(addForeignKeySql);
   }
 
