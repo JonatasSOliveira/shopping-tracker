@@ -1,3 +1,4 @@
+import { AuthPortIn } from "./Auth";
 import { ProductPortIn } from "./Product";
 import { PurchasePortIn } from "./Purchase";
 import { RetailerPortIn } from "./Retailer";
@@ -8,4 +9,5 @@ export interface ServiceFacadePortIn {
   getSyncLocalData(): SyncLocalDataPortIn;
   getProductService(): ProductPortIn;
   getPurchaseService(): PurchasePortIn;
+  getAuthService(): AuthPortIn;
 }

@@ -8,4 +8,5 @@ export enum RoutePaths {
   ProductForm = "ProductForm",
   PurchaseList = "PurchaseList",
   PurchaseForm = "PurchaseForm",
+  SignUp = "SignUp",
 }

@@ -7,7 +7,7 @@ const Stack = createStackNavigator();
 
 export default function StackRoutes() {
   return (
-    <Stack.Navigator initialRouteName={RoutePaths.Home}>
+    <Stack.Navigator initialRouteName={RoutePaths.Login}>
       {Routes.map((route) => (
         <Stack.Screen
           key={route.path}

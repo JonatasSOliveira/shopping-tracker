@@ -1,3 +1,5 @@
+import { isSecret } from "@/decorators/presentation/Secret";
+import { isRequired } from "@/decorators/validation/Required";
 import { BaseDTO } from "@/dtos/Base";
 import React from "react";
 import { useForm, Controller, DefaultValues, Path } from "react-hook-form";
@@ -17,13 +19,30 @@ export const Form = <T extends BaseDTO<any>>({
   });
 
   const getFormFields = (data: T) => {
-    const fields: { [key: string]: string } = {};
-    for (const key of Object.keys(data)) {
-      const isRequired = Reflect.getMetadata("required", data, key);
-      if (isRequired) {
-        fields[key] = "required";
+    const fields: {
+      key: string;
+      label: string;
+      required: boolean;
+      secret: boolean;
+    }[] = [];
+
+    for (const key of Reflect.ownKeys(data)) {
+      if (
+        typeof key === "string" &&
+        !key.startsWith("_") &&
+        !key.startsWith("#")
+      ) {
+        const required = isRequired(data, key);
+        const secret = isSecret(data, key);
+        fields.push({
+          key,
+          label: data.getLabel(key),
+          required,
+          secret,
+        });
       }
     }
+
     return fields;
   };
 
@@ -31,18 +50,19 @@ export const Form = <T extends BaseDTO<any>>({
 
   return (
     <View>
-      {Object.keys(fields).map((field) => (
-        <View key={field}>
-          <Text>{data.getLabel(field)}</Text>
+      {fields.map(({ key, label, required, secret }) => (
+        <View key={key}>
+          <Text>{label}</Text>
           <Controller
             control={control}
-            name={field as Path<T>}
-            rules={{ required: fields[field] === "required" }}
+            name={key as Path<T>}
+            rules={{ required }}
             render={({ field: { onChange, value } }) => (
               <TextInput
                 value={typeof value === "string" ? value : ""}
                 onChangeText={onChange}
-                placeholder={field}
+                placeholder={label}
+                secureTextEntry={secret}
                 style={{ borderWidth: 1, padding: 8, marginBottom: 10 }}
               />
             )}

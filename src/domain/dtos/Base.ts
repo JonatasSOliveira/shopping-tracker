@@ -1,10 +1,10 @@
 import { getLabelWithFallback } from "@/decorators/presentation/Label";
 
 export abstract class BaseDTO<DTOFields> {
-  private modelPrototype?: object;
+  private _modelPrototype?: object;
 
   constructor(modelPrototype?: object) {
-    this.modelPrototype = modelPrototype;
+    this._modelPrototype = modelPrototype;
   }
 
   abstract updateDataFromObject(data: DTOFields): void;
@@ -12,7 +12,7 @@ export abstract class BaseDTO<DTOFields> {
   public getLabel(field: keyof DTOFields): string {
     return getLabelWithFallback({
       dtoPrototype: Object.getPrototypeOf(this),
-      modelPrototype: this.modelPrototype,
+      modelPrototype: this._modelPrototype,
       propertyKey: field as string,
     });
   }

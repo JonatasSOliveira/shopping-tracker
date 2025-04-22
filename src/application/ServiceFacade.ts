@@ -12,12 +12,18 @@ import { SyncLocalDataService } from "@/services/SyncLocalData";
 import { ProductMapper } from "domain/mappers/Product";
 import { RetailerMapper } from "domain/mappers/Retailer";
 import { PurchaseMapper } from "domain/mappers/Purchase";
+import { AuthPortIn } from "@/ports/in/Auth";
+import { AuthService } from "@/services/Auth";
+import { FirebaseAuthManagerAdapter } from "@/adapters/firebase/AuthManager";
+import { UserMapper } from "domain/mappers/User";
+import { AsyncStorageSessionAdapter } from "@/adapters/asyncStorage/SessionStorage";
 
 export class ServiceFacade implements ServiceFacadePortIn {
   private syncLocalData?: SyncLocalDataPortIn;
   private retailerService?: RetailerPortIn;
   private productService?: ProductPortIn;
   private purchaseService?: PurchasePortIn;
+  private authService?: AuthPortIn;
 
   constructor(private readonly adaptersFacade: AdaptersFacadePortOut) {}
 
@@ -58,5 +64,17 @@ export class ServiceFacade implements ServiceFacadePortIn {
       );
     }
     return this.purchaseService;
+  }
+
+  public getAuthService() {
+    if (!this.authService) {
+      this.authService = new AuthService(
+        new FirebaseAuthManagerAdapter(),
+        this.adaptersFacade.getUserRepository(),
+        new UserMapper(),
+        new AsyncStorageSessionAdapter(),
+      );
+    }
+    return this.authService;
   }
 }

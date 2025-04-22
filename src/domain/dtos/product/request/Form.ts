@@ -1,4 +1,4 @@
-import { Required } from "@/decorators/Required";
+import { Required } from "@/decorators/validation/Required";
 import { BaseDTO } from "@/dtos/Base";
 import { Product, ProductFields } from "@/models/Product";
 

@@ -13,4 +13,5 @@ export type RootStackParamList = {
   [RoutePaths.ProductForm]?: ProductFormPageParams;
   [RoutePaths.PurchaseList]: undefined;
   [RoutePaths.PurchaseForm]?: PurchaseFormPageParams;
+  [RoutePaths.SignUp]: undefined;
 };

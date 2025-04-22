@@ -7,6 +7,7 @@ import { RetailerListPage } from "@/screens/Retailer/List/Page";
 import { ProductListPage } from "@/screens/Product/List/Page";
 import { ProductFormPage } from "@/screens/Product/Form/Page";
 import { PurchaseListPage } from "@/screens/Purchase/List/Page";
+import SignUpPage from "@/screens/SignUp/Page";
 
 export const Routes = [
   {
@@ -40,5 +41,9 @@ export const Routes = [
   {
     path: RoutePaths.PurchaseList,
     component: PurchaseListPage,
+  },
+  {
+    path: RoutePaths.SignUp,
+    component: SignUpPage,
   },
 ] as const;
