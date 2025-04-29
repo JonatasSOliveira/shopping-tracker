@@ -8,11 +8,13 @@ import { Text, TextInput, View, Button } from "react-native";
 interface FormProps<T extends BaseDTO<any>> {
   data: T;
   onSubmit: (data: T) => void;
+  saveButtonText?: string;
 }
 
 export const Form = <T extends BaseDTO<any>>({
   data,
   onSubmit,
+  saveButtonText = "Salvar",
 }: FormProps<T>) => {
   const { control, handleSubmit } = useForm<T>({
     defaultValues: data as DefaultValues<T>,
@@ -70,7 +72,7 @@ export const Form = <T extends BaseDTO<any>>({
         </View>
       ))}
       <Button
-        title="Salvar"
+        title={saveButtonText}
         onPress={handleSubmit((formData) => {
           data.updateDataFromObject(formData);
           onSubmit(data);

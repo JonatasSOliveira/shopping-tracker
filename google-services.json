@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "316124265221",
+    "project_id": "shopping-tracker-5e491",
+    "storage_bucket": "shopping-tracker-5e491.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:316124265221:android:f6a1640bb9d170087f956c",
+        "android_client_info": {
+          "package_name": "com.dev.jonatas.oliveira.shoppingtracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "316124265221-fqr9hqfv5oaaeej1e86gvemntht9q9mf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0ePfBJAU577NTLtTBGZdSdlPeEs5uep8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "316124265221-fqr9hqfv5oaaeej1e86gvemntht9q9mf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

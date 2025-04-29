@@ -5,6 +5,6 @@ import { UserSessionDTO } from "@/dtos/user/Session";
 export interface AuthPortIn {
   signIn(data: SignInRequestDTO): Promise<void>;
   signUp(data: SignUpRequestDTO): Promise<void>;
-  getSession(): Promise<UserSessionDTO>;
+  getSession(): Promise<UserSessionDTO | null>;
   signOut(): Promise<void>;
 }

@@ -4,33 +4,25 @@ import { AuthResponseDTO } from "@/dtos/auth/response/Auth";
 import { UserSessionDTO } from "@/dtos/user/Session";
 import { FirebaseProvider } from "@/infra/firebase/Provider";
 import { AuthManagerPortOut } from "@/ports/out/AuthManager";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut as firebaseSignOut,
-} from "firebase/auth";
 
 export class FirebaseAuthManagerAdapter implements AuthManagerPortOut {
   public async signIn(data: SignInRequestDTO): Promise<AuthResponseDTO> {
-    const userCredential = await signInWithEmailAndPassword(
-      FirebaseProvider.getAuth(),
-      data.email,
-      data.password,
+    const userCredential = await FirebaseProvider.getAuth().signInWithEmailAndPassword(
+      data.email, data.password,
     );
-    return { id: userCredential.user.uid };
+    const userId = userCredential.user.uid;
+    return { id: userId };
   }
 
   public async signUp(data: SignUpRequestDTO): Promise<AuthResponseDTO> {
-    const userCredential = await createUserWithEmailAndPassword(
-      FirebaseProvider.getAuth(),
-      data.email,
-      data.password,
-    );
+    const userCredential = await FirebaseProvider.getAuth().createUserWithEmailAndPassword(
+      data.email, data.password,
+    )
 
     return { id: userCredential.user.uid };
   }
 
   public async signOut(session: UserSessionDTO): Promise<void> {
-    await firebaseSignOut(FirebaseProvider.getAuth());
+    await FirebaseProvider.getAuth().signOut();
   }
 }

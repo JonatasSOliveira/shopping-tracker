@@ -9,11 +9,11 @@ export class AsyncStorageSessionAdapter implements SessionStoragePortOut {
     await AsyncStorage.setItem(this.key, JSON.stringify(session));
   }
 
-  public async get(): Promise<UserSessionDTO> {
+  public async get(): Promise<UserSessionDTO | null> {
     const session = await AsyncStorage.getItem(this.key);
 
     if (!session) {
-      throw new Error("Session not found");
+      return null;
     }
 
     return JSON.parse(session);

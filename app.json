@@ -14,9 +14,11 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.dev.jonatas.oliveira.shoppingtracker"
+      "bundleIdentifier": "com.dev.jonatas.oliveira.shoppingtracker",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -46,7 +48,10 @@
           "androidAppId": "ca-app-pub-1975540236759378~4221231868",
           "iosAppId": "ca-app-pub-1975540236759378~9517257741"
         }
-      ]
+      ],
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      "@react-native-firebase/crashlytics"
     ]
   },
   "react-native-google-mobile-ads": {

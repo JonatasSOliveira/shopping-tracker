@@ -1,20 +1,14 @@
-import {
-  collection,
-  Firestore,
-  getDocs,
-  query,
-  where as firebaseWhere,
-  updateDoc,
-  doc,
-  DocumentData,
-  setDoc,
-} from "firebase/firestore";
 import { BaseModel, BaseModelFields } from "@/models/Base";
 import { ModelMapperPort } from "@/ports/middleware/Mapper";
 import { BaseRepository } from "@/ports/out/BaseRepository";
 import { Logger, LogLevel } from "@/services/Logger";
 import { getTableName } from "@/decorators/database/Model";
 import { Where } from "@/types/repositories/Where";
+import { FirebaseProvider } from "@/infra/firebase/Provider";
+import {
+  Filter,
+  FirebaseFirestoreTypes,
+} from "@react-native-firebase/firestore";
 
 export class FirebaseBaseRepositoryAdapter<
   Model extends BaseModel,
@@ -22,7 +16,6 @@ export class FirebaseBaseRepositoryAdapter<
 > implements BaseRepository<Model, Fields>
 {
   constructor(
-    protected firestore: Firestore,
     protected mapper: ModelMapperPort<Model, Fields, any>,
     protected modelClass: new (data: Fields) => Model,
   ) {}
@@ -37,8 +30,10 @@ export class FirebaseBaseRepositoryAdapter<
 
     const fields = this.mapper.toFields(data);
 
-    const docRef = doc(this.firestore, getTableName(this.modelClass), id);
-    await setDoc(docRef, fields);
+    const docRef = FirebaseProvider.getFirestore()
+      .collection(getTableName(this.modelClass))
+      .doc(id);
+    await docRef.set(fields);
 
     Logger.log(
       LogLevel.INFO,
@@ -55,19 +50,24 @@ export class FirebaseBaseRepositoryAdapter<
         JSON.stringify(options),
     );
 
-    const collectionRef = collection(
-      this.firestore,
+    const collectionRef = FirebaseProvider.getFirestore().collection(
       getTableName(this.modelClass),
     );
-    let q = query(collectionRef);
+    const filters: FirebaseFirestoreTypes.QueryFieldFilterConstraint[] = [];
 
     if (options?.where) {
       for (const [key, value] of Object.entries(options.where)) {
-        q = query(q, firebaseWhere(key, "==", value));
+        filters.push(Filter(key, "==", value));
       }
     }
 
-    const snapshot = await getDocs(q);
+    let snapshot;
+    if (filters.length > 0) {
+      snapshot = await collectionRef.where(Filter.and(...filters)).get();
+    } else {
+      snapshot = await collectionRef.get();
+    }
+
     Logger.log(
       LogLevel.INFO,
       `[FirebaseRepository] Found ${snapshot.size} ${this.modelClass.name}`,
@@ -84,28 +84,30 @@ export class FirebaseBaseRepositoryAdapter<
       `[FirebaseRepository] Updating ${this.modelClass.name}`,
     );
 
-    const collectionRef = collection(
-      this.firestore,
+    const collectionRef = FirebaseProvider.getFirestore().collection(
       getTableName(this.modelClass),
     );
-    let q = query(collectionRef);
+    const filters: FirebaseFirestoreTypes.QueryFieldFilterConstraint[] = [];
 
     for (const [key, value] of Object.entries(where)) {
-      q = query(q, firebaseWhere(key, "==", value));
+      filters.push(Filter(key, "==", value));
     }
 
-    const snapshot = await getDocs(q);
+    let snapshot;
+    if (filters.length > 0) {
+      snapshot = await collectionRef.where(Filter.and(...filters)).get();
+    } else {
+      snapshot = await collectionRef.get();
+    }
 
     const updatePromises = snapshot.docs.map((docSnap) => {
-      const reference = doc(
-        this.firestore,
-        getTableName(this.modelClass),
-        docSnap.id,
-      );
+      const reference = FirebaseProvider.getFirestore()
+        .collection(getTableName(this.modelClass))
+        .doc(docSnap.id);
 
-      const updateData = this.mapper.toFields(data) as Partial<DocumentData>; // 👈 cast necessário aqui
+      const updateData = this.mapper.toFields(data);
 
-      return updateDoc(reference, updateData);
+      return reference.update(updateData);
     });
 
     await Promise.all(updatePromises);

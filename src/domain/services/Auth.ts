@@ -35,12 +35,15 @@ export class AuthService implements AuthPortIn {
     });
   }
 
-  public async getSession(): Promise<UserSessionDTO> {
+  public async getSession(): Promise<UserSessionDTO | null> {
     return await this.sessionStorage.get();
   }
 
   public async signOut(): Promise<void> {
     const session = await this.sessionStorage.get();
+    if (!session) {
+      return;
+    }
     await this.authAdapter.signOut(session);
     await this.sessionStorage.remove();
   }
