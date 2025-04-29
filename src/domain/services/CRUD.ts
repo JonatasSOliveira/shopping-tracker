@@ -5,6 +5,7 @@ import { ModelMapperPort } from "@/ports/middleware/Mapper";
 import { BaseRepository } from "@/ports/out/BaseRepository";
 import { Where } from "@/types/repositories/Where";
 import { Logger, LogLevel } from "./Logger";
+import { SessionStoragePortOut } from "@/ports/out/SessionStorage";
 
 export abstract class CRUDService<
   Model extends BaseModel,
@@ -15,6 +16,7 @@ export abstract class CRUDService<
   constructor(
     protected repository: BaseRepository<Model, ModelFields>,
     protected mapper: ModelMapperPort<Model, ModelFields, FormDTO>,
+    protected sessionStorage: SessionStoragePortOut,
   ) {}
 
   protected log(level: LogLevel, message: string, error?: unknown) {
@@ -26,8 +28,16 @@ export abstract class CRUDService<
       this.log(LogLevel.DEBUG, `Starting creation process`);
       const id = uuidv4();
       this.log(LogLevel.DEBUG, `Generated ID: ${id}`);
+      const session = await this.sessionStorage.get();
+      const userId = session.id;
+      const fields: ModelFields = {
+        id,
+        createdByUserId: userId,
+        updatedByUserId: userId,
+        ...(data as unknown as ModelFields),
+      };
       const dataId = await this.repository.create(
-        this.mapper.fromFields({ id, ...data } as unknown as ModelFields),
+        this.mapper.fromFields(fields),
       );
       this.log(LogLevel.INFO, `Created successfully (id: ${dataId})`);
       return dataId;
@@ -69,9 +79,14 @@ export abstract class CRUDService<
   public async update(data: FormDTO, id: string): Promise<void> {
     try {
       this.log(LogLevel.DEBUG, `Updating entry (id: ${id})`);
-      await this.repository.update(this.mapper.fromDTO(data), {
-        id,
-      } as Where<ModelFields>);
+      const session = await this.sessionStorage.get();
+      const userId = session.id;
+      const fields: ModelFields = {
+        updatedByUserId: userId,
+        ...(data as unknown as ModelFields),
+      };
+      const where: Where<ModelFields> = { id } as Where<ModelFields>;
+      await this.repository.update(this.mapper.fromFields(fields), where);
       this.log(LogLevel.INFO, `Entry updated successfully (id: ${id})`);
     } catch (error) {
       this.log(LogLevel.ERROR, `Error updating entry (id: ${id})`, error);

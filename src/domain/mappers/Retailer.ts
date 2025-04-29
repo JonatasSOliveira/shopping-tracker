@@ -22,6 +22,11 @@ export class RetailerMapper
   public toFields(model: Retailer): RetailerFields {
     return {
       name: model.getName(),
+      address: model.getAddress(),
+      city: model.getCity(),
+      stateUf: model.getStateUf(),
+      latitude: model.getLatitude(),
+      longitute: model.getLongitute(),
     };
   }
 }

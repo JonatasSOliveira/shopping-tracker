@@ -1,5 +1,6 @@
 import { SignInRequestDTO } from "@/dtos/auth/request/SignIn";
 import { SignUpRequestDTO } from "@/dtos/auth/request/SignUp";
+import { UserSessionDTO } from "@/dtos/user/Session";
 import { User, UserFields } from "@/models/User";
 import { AuthPortIn } from "@/ports/in/Auth";
 import { ModelMapperPort } from "@/ports/middleware/Mapper";
@@ -32,5 +33,15 @@ export class AuthService implements AuthPortIn {
       name: user.getName(),
       email: user.getEmail(),
     });
+  }
+
+  public async getSession(): Promise<UserSessionDTO> {
+    return await this.sessionStorage.get();
+  }
+
+  public async signOut(): Promise<void> {
+    const session = await this.sessionStorage.get();
+    await this.authAdapter.signOut(session);
+    await this.sessionStorage.remove();
   }
 }

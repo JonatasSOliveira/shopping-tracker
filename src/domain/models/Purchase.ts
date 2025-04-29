@@ -3,17 +3,17 @@ import { Field } from "@/decorators/database/Field";
 import { NotNull } from "@/decorators/database/NotNull";
 import { ForeignKey } from "@/decorators/database/ForeignKey";
 import { Label } from "@/decorators/presentation/Label";
-import { BaseModel, BaseModelFields } from "./Base";
 import { Retailer } from "./Retailer";
+import { UserTrackedModel, UserTrackedModelFields } from "./UserTracked";
 
-export interface PurchaseFields extends BaseModelFields {
+export interface PurchaseFields extends UserTrackedModelFields {
   retailerId?: number;
   total?: number;
   date?: Date;
 }
 
 @Model("purchase")
-export class Purchase extends BaseModel {
+export class Purchase extends UserTrackedModel {
   @Field()
   @NotNull()
   @ForeignKey(() => Retailer)

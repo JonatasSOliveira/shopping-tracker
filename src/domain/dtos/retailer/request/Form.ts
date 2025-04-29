@@ -2,7 +2,8 @@ import { Required } from "@/decorators/validation/Required";
 import { BaseDTO } from "@/dtos/Base";
 import { Retailer, RetailerFields } from "@/models/Retailer";
 
-type RetailerFormDTOProps = Required<Pick<RetailerFields, "name">>;
+type RetailerFormDTOProps = Required<Pick<RetailerFields, "name">> &
+  Pick<RetailerFields, "address" | "city" | "stateUf">;
 
 export class RetailerFormDTO
   extends BaseDTO<RetailerFormDTOProps>
@@ -10,6 +11,9 @@ export class RetailerFormDTO
 {
   @Required
   public name: string = "";
+  public address?: string | undefined;
+  public city?: string | undefined;
+  public stateUf?: string | undefined;
 
   constructor() {
     super(Retailer.prototype);
@@ -17,5 +21,8 @@ export class RetailerFormDTO
 
   public override updateDataFromObject(data: RetailerFormDTOProps): void {
     this.name = data.name;
+    this.address = data.address;
+    this.city = data.city;
+    this.stateUf = data.stateUf;
   }
 }

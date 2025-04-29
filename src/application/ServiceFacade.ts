@@ -17,8 +17,12 @@ import { AuthService } from "@/services/Auth";
 import { FirebaseAuthManagerAdapter } from "@/adapters/firebase/AuthManager";
 import { UserMapper } from "domain/mappers/User";
 import { AsyncStorageSessionAdapter } from "@/adapters/asyncStorage/SessionStorage";
+import { SessionStoragePortOut } from "@/ports/out/SessionStorage";
 
 export class ServiceFacade implements ServiceFacadePortIn {
+  private sessionStorage: SessionStoragePortOut =
+    new AsyncStorageSessionAdapter();
+
   private syncLocalData?: SyncLocalDataPortIn;
   private retailerService?: RetailerPortIn;
   private productService?: ProductPortIn;
@@ -41,6 +45,7 @@ export class ServiceFacade implements ServiceFacadePortIn {
       this.retailerService = new RetailerService(
         this.adaptersFacade.getRetailerRepository(),
         new RetailerMapper(),
+        this.sessionStorage,
       );
     }
     return this.retailerService;
@@ -51,6 +56,7 @@ export class ServiceFacade implements ServiceFacadePortIn {
       this.productService = new ProductService(
         this.adaptersFacade.getProductRepository(),
         new ProductMapper(),
+        this.sessionStorage,
       );
     }
     return this.productService;
@@ -61,6 +67,7 @@ export class ServiceFacade implements ServiceFacadePortIn {
       this.purchaseService = new PurchaseService(
         this.adaptersFacade.getPurchaseRepository(),
         new PurchaseMapper(),
+        this.sessionStorage,
       );
     }
     return this.purchaseService;
@@ -72,7 +79,7 @@ export class ServiceFacade implements ServiceFacadePortIn {
         new FirebaseAuthManagerAdapter(),
         this.adaptersFacade.getUserRepository(),
         new UserMapper(),
-        new AsyncStorageSessionAdapter(),
+        this.sessionStorage,
       );
     }
     return this.authService;

@@ -1,10 +1,9 @@
 import "reflect-metadata";
 import "react-native-get-random-values";
-import { StatusBar } from "expo-status-bar";
-import { NavigationContainer } from "@react-navigation/native";
-import StackRoutes from "@/routes/StackRoutes";
 import { useAppInit } from "hooks/useAppInit";
 import { ActivityIndicator, Text, View } from "react-native";
+import RootNavigator from "@/routes/RootNavigator";
+import { AuthProvider } from "hooks/useAuth";
 
 export default function App() {
   const isReady = useAppInit();
@@ -19,9 +18,8 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <StatusBar style="auto" />
-      <StackRoutes />
-    </NavigationContainer>
+    <AuthProvider>
+      <RootNavigator />
+    </AuthProvider>
   );
 }

@@ -4,11 +4,12 @@ import { Routes } from "./Routes";
 import { RoutePaths } from "./RoutePaths";
 
 const Stack = createStackNavigator();
+const publicRoutes = Routes.filter((route) => route.isPublic);
 
-export default function StackRoutes() {
+export function PublicStackRoutes() {
   return (
     <Stack.Navigator initialRouteName={RoutePaths.Login}>
-      {Routes.map((route) => (
+      {publicRoutes.map((route) => (
         <Stack.Screen
           key={route.path}
           name={route.path}

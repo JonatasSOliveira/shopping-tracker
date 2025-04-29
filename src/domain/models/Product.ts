@@ -1,10 +1,10 @@
 import { Model } from "@/decorators/database/Model";
-import { BaseModel, BaseModelFields } from "./Base";
 import { Field } from "@/decorators/database/Field";
 import { NotNull } from "@/decorators/database/NotNull";
 import { Label } from "@/decorators/presentation/Label";
+import { ApprovableModel, ApprovableModelFields } from "./ApprovableModel";
 
-export interface ProductFields extends BaseModelFields {
+export interface ProductFields extends ApprovableModelFields {
   name?: string;
   barCode?: string;
   brand?: string;
@@ -12,7 +12,7 @@ export interface ProductFields extends BaseModelFields {
 }
 
 @Model("product")
-export class Product extends BaseModel {
+export class Product extends ApprovableModel {
   @Field()
   @NotNull()
   @Label("Nome")

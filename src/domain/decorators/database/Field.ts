@@ -4,20 +4,35 @@ import { FIELDS_KEY } from "./symbols";
 export interface FieldData {
   name: string;
   type: string;
+  enumObject?: object;
 }
 
-export function Field(): PropertyDecorator {
+export function Field(
+  typeOverride?: string | { type: string; enumObject?: object },
+): PropertyDecorator {
   return function (target, propertyKey) {
     const constructor = target.constructor;
-
     const ownFields: FieldData[] =
       Reflect.getOwnMetadata(FIELDS_KEY, constructor) || [];
 
-    const type = Reflect.getMetadata("design:type", target, propertyKey);
+    let type = Reflect.getMetadata(
+      "design:type",
+      target,
+      propertyKey,
+    )?.name?.toLowerCase();
+    let enumObject: object | undefined;
+
+    if (typeof typeOverride === "string") {
+      type = typeOverride.toLowerCase();
+    } else if (typeof typeOverride === "object" && typeOverride.type) {
+      type = typeOverride.type.toLowerCase();
+      enumObject = typeOverride.enumObject;
+    }
 
     ownFields.push({
       name: propertyKey.toString(),
-      type: type.name.toLowerCase(),
+      type,
+      enumObject,
     });
 
     Reflect.defineMetadata(FIELDS_KEY, ownFields, constructor);

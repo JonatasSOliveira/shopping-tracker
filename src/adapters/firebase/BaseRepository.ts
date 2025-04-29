@@ -3,7 +3,7 @@ import {
   Firestore,
   getDocs,
   query,
-  where as fbWhere,
+  where as firebaseWhere,
   updateDoc,
   doc,
   DocumentData,
@@ -63,7 +63,7 @@ export class FirebaseBaseRepositoryAdapter<
 
     if (options?.where) {
       for (const [key, value] of Object.entries(options.where)) {
-        q = query(q, fbWhere(key, "==", value));
+        q = query(q, firebaseWhere(key, "==", value));
       }
     }
 
@@ -91,7 +91,7 @@ export class FirebaseBaseRepositoryAdapter<
     let q = query(collectionRef);
 
     for (const [key, value] of Object.entries(where)) {
-      q = query(q, fbWhere(key, "==", value));
+      q = query(q, firebaseWhere(key, "==", value));
     }
 
     const snapshot = await getDocs(q);

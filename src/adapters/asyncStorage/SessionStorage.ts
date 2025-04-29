@@ -18,4 +18,8 @@ export class AsyncStorageSessionAdapter implements SessionStoragePortOut {
 
     return JSON.parse(session);
   }
+
+  public async remove(): Promise<void> {
+    await AsyncStorage.removeItem(this.key);
+  }
 }

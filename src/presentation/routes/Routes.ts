@@ -9,7 +9,23 @@ import { ProductFormPage } from "@/screens/Product/Form/Page";
 import { PurchaseListPage } from "@/screens/Purchase/List/Page";
 import SignUpPage from "@/screens/SignUp/Page";
 
-export const Routes = [
+type Route = {
+  path: string;
+  component: (props: any) => JSX.Element;
+  isPublic?: boolean;
+};
+
+export const Routes: Route[] = [
+  {
+    path: RoutePaths.Login,
+    component: LoginPage,
+    isPublic: true,
+  },
+  {
+    path: RoutePaths.SignUp,
+    component: SignUpPage,
+    isPublic: true,
+  },
   {
     path: RoutePaths.Home,
     component: HomePage,
@@ -17,10 +33,6 @@ export const Routes = [
   {
     path: RoutePaths.Scanner,
     component: ScannerPage,
-  },
-  {
-    path: RoutePaths.Login,
-    component: LoginPage,
   },
   {
     path: RoutePaths.RetailerForm,
@@ -42,8 +54,4 @@ export const Routes = [
     path: RoutePaths.PurchaseList,
     component: PurchaseListPage,
   },
-  {
-    path: RoutePaths.SignUp,
-    component: SignUpPage,
-  },
-] as const;
+];
