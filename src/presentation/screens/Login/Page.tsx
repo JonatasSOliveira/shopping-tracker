@@ -6,6 +6,7 @@ import { RootStackParamList } from "@/routes/RootStackParamList";
 import { RoutePaths } from "@/routes/RoutePaths";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ServiceFacadeProvider } from "@/application/ServiceFacadeProvider";
+import { useAuth } from "hooks/useAuth";
 
 type LoginPageNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -19,11 +20,14 @@ type LoginProps = {
 const authService = ServiceFacadeProvider.getCloud().getAuthService();
 
 export default function LoginPage({ navigation }: LoginProps) {
+  const { refreshSession } = useAuth();
+
   const handleSubmit = async (data: SignInRequestDTO) => {
     try {
       await authService.signIn(data);
-      navigation.navigate(RoutePaths.Home);
-    } catch (error) {
+      await refreshSession();
+      navigation.replace(RoutePaths.Home);
+    } catch (_) {
       Alert.alert("Login", "Usuário ou senha inválidos");
     }
   };

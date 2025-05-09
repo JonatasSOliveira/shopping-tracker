@@ -4,10 +4,19 @@ import { BaseRepository } from "@/ports/out/BaseRepository";
 import { Logger, LogLevel } from "@/services/Logger";
 import { getTableName } from "@/decorators/database/Model";
 import { Where } from "@/types/repositories/Where";
-import { FirebaseProvider } from "@/infra/firebase/Provider";
+
+// Importações modulares do Firebase
 import {
-  Filter,
-  FirebaseFirestoreTypes,
+  getFirestore,
+  collection,
+  doc,
+  setDoc,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+  QueryFieldFilterConstraint,
+  getDoc,
 } from "@react-native-firebase/firestore";
 
 export class FirebaseBaseRepositoryAdapter<
@@ -27,13 +36,11 @@ export class FirebaseBaseRepositoryAdapter<
     );
 
     const id = data.getId();
-
     const fields = this.mapper.toFields(data);
 
-    const docRef = FirebaseProvider.getFirestore()
-      .collection(getTableName(this.modelClass))
-      .doc(id);
-    await docRef.set(fields);
+    const db = getFirestore();
+    const docRef = doc(db, getTableName(this.modelClass), id);
+    await setDoc(docRef, fields);
 
     Logger.log(
       LogLevel.INFO,
@@ -46,27 +53,67 @@ export class FirebaseBaseRepositoryAdapter<
   public async listAll(options?: { where?: Where<Fields> }): Promise<Model[]> {
     Logger.log(
       LogLevel.INFO,
-      `[FirebaseRepository] Listing all ${this.modelClass.name} with options ` +
-        JSON.stringify(options),
+      `[FirebaseRepository] Listing all ${this.modelClass.name} with options ${JSON.stringify(options)}`,
     );
 
-    const collectionRef = FirebaseProvider.getFirestore().collection(
-      getTableName(this.modelClass),
-    );
-    const filters: FirebaseFirestoreTypes.QueryFieldFilterConstraint[] = [];
+    const db = getFirestore();
+    const tableName = getTableName(this.modelClass);
+    const collectionRef = collection(db, tableName);
 
-    if (options?.where) {
-      for (const [key, value] of Object.entries(options.where)) {
-        filters.push(Filter(key, "==", value));
+    const filters: QueryFieldFilterConstraint[] = [];
+    const whereConditions = options?.where ?? { id: undefined };
+    const { id, ...otherFilters } = whereConditions;
+
+    // Monta os filtros para os outros campos
+    for (const [key, value] of Object.entries(otherFilters)) {
+      filters.push(where(key, "==", value));
+    }
+
+    // Se tiver outros filtros além de id
+    if (Object.keys(otherFilters).length > 0) {
+      const q = query(collectionRef, ...filters);
+      const snapshot = await getDocs(q);
+
+      Logger.log(
+        LogLevel.INFO,
+        `[FirebaseRepository] Found ${snapshot.size} ${this.modelClass.name}`,
+      );
+
+      return snapshot.docs
+        .filter((docSnap) => !id || docSnap.id === id) // se também veio um id, filtra em memória
+        .map((docSnap) =>
+          this.mapper.fromFields({
+            ...(docSnap.data() as Fields),
+            id: docSnap.id,
+          }),
+        );
+    }
+
+    // Caso esteja filtrando apenas por ID
+    if (id) {
+      const docSnap = await getDoc(doc(db, tableName, id));
+      if (docSnap.exists) {
+        Logger.log(
+          LogLevel.INFO,
+          `[FirebaseRepository] Found 1 ${this.modelClass.name} by ID`,
+        );
+        return [
+          this.mapper.fromFields({
+            ...(docSnap.data() as Fields),
+            id: docSnap.id,
+          }),
+        ];
+      } else {
+        Logger.log(
+          LogLevel.INFO,
+          `[FirebaseRepository] No ${this.modelClass.name} found with ID ${id}`,
+        );
+        return [];
       }
     }
 
-    let snapshot;
-    if (filters.length > 0) {
-      snapshot = await collectionRef.where(Filter.and(...filters)).get();
-    } else {
-      snapshot = await collectionRef.get();
-    }
+    // Nenhum filtro — busca tudo
+    const snapshot = await getDocs(collectionRef);
 
     Logger.log(
       LogLevel.INFO,
@@ -78,36 +125,26 @@ export class FirebaseBaseRepositoryAdapter<
     );
   }
 
-  public async update(data: Model, where: Where<Fields>): Promise<void> {
+  public async update(data: Model, whereClause: Where<Fields>): Promise<void> {
     Logger.log(
       LogLevel.INFO,
       `[FirebaseRepository] Updating ${this.modelClass.name}`,
     );
 
-    const collectionRef = FirebaseProvider.getFirestore().collection(
-      getTableName(this.modelClass),
+    const db = getFirestore();
+    const collectionRef = collection(db, getTableName(this.modelClass));
+
+    const filters = Object.entries(whereClause).map(([key, value]) =>
+      where(key, "==", value),
     );
-    const filters: FirebaseFirestoreTypes.QueryFieldFilterConstraint[] = [];
+    const q = query(collectionRef, ...filters);
 
-    for (const [key, value] of Object.entries(where)) {
-      filters.push(Filter(key, "==", value));
-    }
-
-    let snapshot;
-    if (filters.length > 0) {
-      snapshot = await collectionRef.where(Filter.and(...filters)).get();
-    } else {
-      snapshot = await collectionRef.get();
-    }
+    const snapshot = await getDocs(q);
 
     const updatePromises = snapshot.docs.map((docSnap) => {
-      const reference = FirebaseProvider.getFirestore()
-        .collection(getTableName(this.modelClass))
-        .doc(docSnap.id);
-
+      const docRef = doc(db, getTableName(this.modelClass), docSnap.id);
       const updateData = this.mapper.toFields(data);
-
-      return reference.update(updateData);
+      return updateDoc(docRef, updateData as any);
     });
 
     await Promise.all(updatePromises);

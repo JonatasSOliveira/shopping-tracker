@@ -1,9 +1,7 @@
-import { FirebaseProvider } from "@/infra/firebase/Provider";
 import { AdaptersFacadePortOut } from "@/ports/out/AdaptersFacade";
 import { RetailerRepository } from "@/ports/out/RetailerRepository";
 import { FirebaseRetailerRepositoryAdapter } from "./RetailerRepository";
 import { RetailerMapper } from "domain/mappers/Retailer";
-import { Firestore } from "firebase/firestore";
 import { ProductRepository } from "@/ports/out/ProductRepository";
 import { FirebaseProductRepositoryAdapter } from "./ProductRepository";
 import { ProductMapper } from "domain/mappers/Product";
@@ -15,15 +13,13 @@ import { FirebaseUserRepositoryAdapter } from "./UserRepository";
 import { UserMapper } from "domain/mappers/User";
 
 export class FirebaseAdaptersFacade implements AdaptersFacadePortOut {
-  private firestore: Firestore = FirebaseProvider.getFirestore();
   private retailerRepository: RetailerRepository =
-    new FirebaseRetailerRepositoryAdapter(this.firestore, new RetailerMapper());
+    new FirebaseRetailerRepositoryAdapter(new RetailerMapper());
   private productRepository: ProductRepository =
-    new FirebaseProductRepositoryAdapter(this.firestore, new ProductMapper());
+    new FirebaseProductRepositoryAdapter(new ProductMapper());
   private purchaseRepository: PurchaseRepository =
-    new FirebasePurchaseRepositoryAdapter(this.firestore, new PurchaseMapper());
+    new FirebasePurchaseRepositoryAdapter(new PurchaseMapper());
   private userRepository: UserRepository = new FirebaseUserRepositoryAdapter(
-    this.firestore,
     new UserMapper(),
   );
 

@@ -1,14 +1,10 @@
-import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
-import firestore, {
+import {
   FirebaseFirestoreTypes,
+  getFirestore as fbGetFirestore,
 } from "@react-native-firebase/firestore";
 
 export class FirebaseProvider {
-  public static getAuth(): FirebaseAuthTypes.Module {
-    return auth();
-  }
-
   public static getFirestore(): FirebaseFirestoreTypes.Module {
-    return firestore();
+    return fbGetFirestore();
   }
 }
