@@ -1,5 +1,6 @@
 import { Label } from "@/decorators/presentation/Label";
 import { Secret } from "@/decorators/presentation/Secret";
+import { Email } from "@/decorators/validation/Email";
 import { Required } from "@/decorators/validation/Required";
 import { BaseDTO } from "@/dtos/Base";
 
@@ -10,6 +11,7 @@ interface SignInRequestDTOProps {
 
 export class SignInRequestDTO extends BaseDTO<SignInRequestDTOProps> {
   @Required
+  @Email
   @Label("E-mail")
   public email: string = "";
 

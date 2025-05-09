@@ -1,4 +1,5 @@
 import { isSecret } from "@/decorators/presentation/Secret";
+import { isEmail } from "@/decorators/validation/Email";
 import { isRequired } from "@/decorators/validation/Required";
 import { BaseDTO } from "@/dtos/Base";
 import React from "react";
@@ -26,6 +27,7 @@ export const Form = <T extends BaseDTO<any>>({
       label: string;
       required: boolean;
       secret: boolean;
+      isEmail: boolean;
     }[] = [];
 
     for (const key of Reflect.ownKeys(data)) {
@@ -36,11 +38,13 @@ export const Form = <T extends BaseDTO<any>>({
       ) {
         const required = isRequired(data, key);
         const secret = isSecret(data, key);
+        const email = isEmail(data, key);
         fields.push({
           key,
           label: data.getLabel(key),
           required,
           secret,
+          isEmail: email,
         });
       }
     }
@@ -52,7 +56,7 @@ export const Form = <T extends BaseDTO<any>>({
 
   return (
     <View>
-      {fields.map(({ key, label, required, secret }) => (
+      {fields.map(({ key, label, required, secret, isEmail: isEmail }) => (
         <View key={key}>
           <Text>{label}</Text>
           <Controller
@@ -65,6 +69,7 @@ export const Form = <T extends BaseDTO<any>>({
                 onChangeText={onChange}
                 placeholder={label}
                 secureTextEntry={secret}
+                keyboardType={isEmail ? "email-address" : "default"}
                 style={{ borderWidth: 1, padding: 8, marginBottom: 10 }}
               />
             )}

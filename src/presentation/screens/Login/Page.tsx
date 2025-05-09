@@ -26,7 +26,6 @@ export default function LoginPage({ navigation }: LoginProps) {
     try {
       await authService.signIn(data);
       await refreshSession();
-      navigation.replace(RoutePaths.Home);
     } catch (_) {
       Alert.alert("Login", "Usuário ou senha inválidos");
     }

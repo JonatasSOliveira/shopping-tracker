@@ -4,6 +4,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "presentation/routes/RootStackParamList";
 import { RoutePaths } from "@/routes/RoutePaths";
 import { AppLayout } from "@/components/template/AppLayout/Component";
+import { useAuth } from "hooks/useAuth";
+import { ServiceFacadeProvider } from "@/application/ServiceFacadeProvider";
 
 type HomePageNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -14,7 +16,16 @@ type Props = {
   navigation: HomePageNavigationProp;
 };
 
+const authService = ServiceFacadeProvider.getCloud().getAuthService();
+
 export function HomePage({ navigation }: Props) {
+  const { refreshSession } = useAuth();
+
+  const handleLogout = async () => {
+    await authService.signOut();
+    await refreshSession();
+  };
+
   return (
     <AppLayout>
       <Button
@@ -33,6 +44,7 @@ export function HomePage({ navigation }: Props) {
         title="Compras"
         onPress={() => navigation.navigate(RoutePaths.PurchaseList)}
       />
+      <Button title="Deslogar" onPress={handleLogout} />
     </AppLayout>
   );
 }
