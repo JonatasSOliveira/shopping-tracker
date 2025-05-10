@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import "react-native-get-random-values";
+import "./global.css"
 import { useAppInit } from "hooks/useAppInit";
 import { ActivityIndicator, Text, View } from "react-native";
 import RootNavigator from "@/routes/RootNavigator";

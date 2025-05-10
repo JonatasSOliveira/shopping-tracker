@@ -60,7 +60,13 @@
           }
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "6aecaf56-6672-4fd1-853c-037f96993739"
+      }
+    },
+    "owner": "dev.jonatas.oliveira"
   },
   "react-native-google-mobile-ads": {
     "android_app_id": "ca-app-pub-1975540236759378~4221231868",
