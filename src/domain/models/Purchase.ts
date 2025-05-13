@@ -30,7 +30,7 @@ export class Purchase extends UserTrackedModel {
   @Label("Data da compra")
   private date: Date;
 
-  constructor(data: PurchaseFields) {
+  constructor(data: Partial<PurchaseFields>) {
     super(data);
     this.retailerId = data.retailerId ?? 0;
     this.total = data.total ?? 0;

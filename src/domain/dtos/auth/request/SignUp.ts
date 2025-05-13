@@ -3,7 +3,7 @@ import { Secret } from "@/decorators/presentation/Secret";
 import { Required } from "@/decorators/validation/Required";
 import { BaseDTO } from "@/dtos/Base";
 
-interface SignUpRequestDTOProps {
+export interface SignUpRequestDTOProps {
   name: string;
   email: string;
   password: string;

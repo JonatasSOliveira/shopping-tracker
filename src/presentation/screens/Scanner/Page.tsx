@@ -6,7 +6,7 @@ import {
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, View, Alert } from "react-native";
 
-export default function ScannerPage() {
+const ScannerPage = () => {
   const [canScan, setCanScan] = useState(true);
   const [lastCodes, setLastCodes] = useState<string[]>([]);
   const [permission, requestPermission] = useCameraPermissions();
@@ -70,7 +70,7 @@ export default function ScannerPage() {
       ></CameraView>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -90,3 +90,5 @@ const styles = StyleSheet.create({
     color: "white",
   },
 });
+
+export default ScannerPage;

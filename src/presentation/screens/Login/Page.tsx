@@ -7,6 +7,7 @@ import { RoutePaths } from "@/routes/RoutePaths";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ServiceFacadeProvider } from "@/application/ServiceFacadeProvider";
 import { useAuth } from "hooks/useAuth";
+import { AppLayout } from "@/components/template/AppLayout/Component";
 
 type LoginPageNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -19,7 +20,7 @@ type LoginProps = {
 
 const authService = ServiceFacadeProvider.getCloud().getAuthService();
 
-export default function LoginPage({ navigation }: LoginProps) {
+const LoginPage = ({ navigation }: LoginProps) => {
   const { refreshSession } = useAuth();
 
   const handleSubmit = async (data: SignInRequestDTO) => {
@@ -34,13 +35,15 @@ export default function LoginPage({ navigation }: LoginProps) {
   const handleSignUpRedirect = () => navigation.navigate(RoutePaths.SignUp);
 
   return (
-    <View>
+    <AppLayout>
       <Form
         data={new SignInRequestDTO()}
         onSubmit={handleSubmit}
         saveButtonText="Entrar"
       />
       <Button title="Novo? Cadastre-se" onPress={handleSignUpRedirect} />
-    </View>
+    </AppLayout>
   );
-}
+};
+
+export default LoginPage;

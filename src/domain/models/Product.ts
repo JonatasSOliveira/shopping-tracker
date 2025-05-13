@@ -5,10 +5,10 @@ import { Label } from "@/decorators/presentation/Label";
 import { ApprovableModel, ApprovableModelFields } from "./ApprovableModel";
 
 export interface ProductFields extends ApprovableModelFields {
-  name?: string;
-  barCode?: string;
-  brand?: string;
-  imageUrl?: string;
+  name: string | null;
+  barCode: string | null;
+  brand: string | null;
+  imageUrl: string | null;
 }
 
 @Model("product")
@@ -20,22 +20,22 @@ export class Product extends ApprovableModel {
 
   @Field()
   @Label("Código de barras")
-  private barCode?: string;
+  private barCode: string | null;
 
   @Field()
   @Label("Marca")
-  private brand?: string;
+  private brand: string | null;
 
   @Field()
   @Label("URL de imagem")
-  private imageUrl?: string;
+  private imageUrl: string | null;
 
-  constructor(data: ProductFields) {
+  constructor(data: Partial<ProductFields>) {
     super(data);
     this.name = data.name ?? "";
-    this.barCode = data.barCode;
-    this.brand = data.brand;
-    this.imageUrl = data.imageUrl;
+    this.barCode = data.barCode ?? null;
+    this.brand = data.brand ?? null;
+    this.imageUrl = data.imageUrl ?? null;
   }
 
   public getName() {

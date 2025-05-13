@@ -12,7 +12,7 @@ export class ProductFormDTO
   @Required
   public name: string = "";
 
-  public barCode?: string;
+  public barCode: string | null = null;
 
   @Required
   public brand: string = "";
@@ -22,8 +22,8 @@ export class ProductFormDTO
   }
 
   updateDataFromObject(data: ProductFormDTOProps): void {
-    this.name = data.name;
+    this.name = data.name ?? "";
     this.barCode = data.barCode;
-    this.brand = data.brand;
+    this.brand = data.brand ?? "";
   }
 }

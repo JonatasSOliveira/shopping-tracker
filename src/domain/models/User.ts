@@ -5,8 +5,8 @@ import { Label } from "@/decorators/presentation/Label";
 import { Model } from "@/decorators/database/Model";
 
 export interface UserFields extends BaseModelFields {
-  name?: string;
-  email?: string;
+  name: string | null;
+  email: string | null;
 }
 
 @Model("user")
@@ -21,7 +21,7 @@ export class User extends BaseModel {
   @Label("E-mail")
   private email: string;
 
-  constructor(data: UserFields) {
+  constructor(data: Partial<UserFields>) {
     super(data);
     this.name = data.name ?? "";
     this.email = data.email ?? "";

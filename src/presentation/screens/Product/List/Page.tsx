@@ -16,7 +16,7 @@ type Props = {
 
 const productService = ServiceFacadeProvider.getCloud().getProductService();
 
-export const ProductListPage = ({ navigation }: Props) => {
+const ProductListPage = ({ navigation }: Props) => {
   return (
     <ListPageTemplate<Product>
       title="Lista de Produtos"
@@ -30,3 +30,5 @@ export const ProductListPage = ({ navigation }: Props) => {
     />
   );
 };
+
+export default ProductListPage;

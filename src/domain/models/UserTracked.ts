@@ -5,9 +5,9 @@ import { ForeignKey } from "@/decorators/database/ForeignKey";
 import { User } from "./User";
 
 export interface UserTrackedModelFields extends BaseModelFields {
-  createdByUserId?: string;
-  updatedByUserId?: string;
-  deletedByUserId?: string;
+  createdByUserId: string | null;
+  updatedByUserId: string | null;
+  deletedByUserId: string | null;
 }
 
 export abstract class UserTrackedModel extends BaseModel {
@@ -23,12 +23,24 @@ export abstract class UserTrackedModel extends BaseModel {
 
   @Field()
   @ForeignKey(() => User)
-  protected deletedByUserId?: string;
+  protected deletedByUserId: string | null;
 
-  constructor(data: UserTrackedModelFields) {
+  constructor(data: Partial<UserTrackedModelFields>) {
     super(data);
     this.createdByUserId = data.createdByUserId ?? "";
     this.updatedByUserId = data.updatedByUserId ?? "";
-    this.deletedByUserId = data.deletedByUserId;
+    this.deletedByUserId = data.deletedByUserId ?? null;
+  }
+
+  public getCreatedByUserId(): string {
+    return this.createdByUserId;
+  }
+
+  public getUpdatedByUserId(): string {
+    return this.updatedByUserId;
+  }
+
+  public getDeletedByUserId(): string | null {
+    return this.deletedByUserId;
   }
 }

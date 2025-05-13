@@ -28,6 +28,13 @@ export class PurchaseMapper
       retailerId: model.getRetailerId(),
       total: model.getTotal(),
       date: model.getDate(),
+      createdByUserId: model.getCreatedByUserId(),
+      deletedByUserId: model.getDeletedByUserId(),
+      updatedByUserId: model.getUpdatedByUserId(),
+      createdAt: model.getCreatedAt(),
+      deletedAt: model.getDeletedAt(),
+      id: model.getId(),
+      updatedAt: model.getUpdatedAt(),
     };
   }
 }

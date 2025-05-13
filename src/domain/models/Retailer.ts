@@ -40,7 +40,7 @@ export class Retailer extends ApprovableModel {
   @Label("Longitude")
   private longitute?: number;
 
-  constructor(data: RetailerFields) {
+  constructor(data: Partial<RetailerFields>) {
     super(data);
     this.name = data.name ?? "";
     this.address = data.address;

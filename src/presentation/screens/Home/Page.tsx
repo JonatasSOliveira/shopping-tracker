@@ -18,7 +18,7 @@ type Props = {
 
 const authService = ServiceFacadeProvider.getCloud().getAuthService();
 
-export function HomePage({ navigation }: Props) {
+const HomePage = ({ navigation }: Props) => {
   const { refreshSession } = useAuth();
 
   const handleLogout = async () => {
@@ -47,4 +47,6 @@ export function HomePage({ navigation }: Props) {
       <Button title="Deslogar" onPress={handleLogout} />
     </AppLayout>
   );
-}
+};
+
+export default HomePage;

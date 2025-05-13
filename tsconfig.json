@@ -11,6 +11,7 @@
       "@/dtos/*": ["./domain/dtos/*"],
       "@/ports/*": ["./domain/ports/*"],
       "@/types/*": ["./domain/types/*"],
+      "@/utils/*": ["./domain/utils/*"],
       "@/adapters/*": ["./adapters/*"],
       "@/services/*": ["./domain/services/*"],
       "@/application/*": ["./application/*"],

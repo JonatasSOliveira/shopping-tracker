@@ -30,24 +30,44 @@ export class FirebaseBaseRepositoryAdapter<
   ) {}
 
   public async create(data: Model): Promise<string> {
-    Logger.log(
-      LogLevel.INFO,
-      `[FirebaseRepository] Creating ${this.modelClass.name}`,
-    );
+    try {
+      Logger.log(
+        LogLevel.INFO,
+        `[FirebaseRepository] Creating ${this.modelClass.name}`,
+      );
 
-    const id = data.getId();
-    const fields = this.mapper.toFields(data);
+      const id = data.getId();
+      const fields = this.mapper.toFields(data);
 
-    const db = getFirestore();
-    const docRef = doc(db, getTableName(this.modelClass), id);
-    await setDoc(docRef, fields);
+      Logger.log(
+        LogLevel.DEBUG,
+        `[FirebaseRepository] Fields: ${JSON.stringify(
+          fields,
+          (key, value) => {
+            return value === undefined ? "<<undefined>>" : value;
+          },
+          2,
+        )}`,
+      );
 
-    Logger.log(
-      LogLevel.INFO,
-      `[FirebaseRepository] ${this.modelClass.name} created with id ${id}`,
-    );
+      const db = getFirestore();
+      const docRef = doc(db, getTableName(this.modelClass), fields.id!);
+      await setDoc(docRef, fields);
 
-    return id;
+      Logger.log(
+        LogLevel.INFO,
+        `[FirebaseRepository] ${this.modelClass.name} created with id ${id}`,
+      );
+
+      return id;
+    } catch (error) {
+      Logger.log(
+        LogLevel.ERROR,
+        `[FirebaseRepository] Error creating ${this.modelClass.name}`,
+        error,
+      );
+      throw error;
+    }
   }
 
   public async listAll(options?: { where?: Where<Fields> }): Promise<Model[]> {

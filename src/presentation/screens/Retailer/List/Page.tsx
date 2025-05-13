@@ -16,7 +16,7 @@ type Props = {
 
 const retailerService = ServiceFacadeProvider.getCloud().getRetailerService();
 
-export const RetailerListPage = ({ navigation }: Props) => {
+const RetailerListPage = ({ navigation }: Props) => {
   return (
     <ListPageTemplate<Retailer>
       title="Lista de Comércios"
@@ -30,3 +30,5 @@ export const RetailerListPage = ({ navigation }: Props) => {
     />
   );
 };
+
+export default RetailerListPage;

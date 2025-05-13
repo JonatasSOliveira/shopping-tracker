@@ -21,7 +21,7 @@ type ProductFormPageProps = {
 
 const productService = ServiceFacadeProvider.getCloud().getProductService();
 
-export function ProductFormPage({ navigation }: ProductFormPageProps) {
+const ProductFormPage = ({ navigation }: ProductFormPageProps) => {
   const route =
     useRoute<RouteProp<RootStackParamList, RoutePaths.ProductForm>>();
   const [formData, setFormData] = useState<ProductFormDTO | null>(null);
@@ -67,4 +67,6 @@ export function ProductFormPage({ navigation }: ProductFormPageProps) {
       <Form data={formData} onSubmit={handleSubmit} />
     </AppLayout>
   );
-}
+};
+
+export default ProductFormPage;

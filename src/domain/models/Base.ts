@@ -3,10 +3,10 @@ import { NotNull } from "@/decorators/database/NotNull";
 import { PrimaryKey } from "@/decorators/database/PrimaryKey";
 
 export interface BaseModelFields {
-  id?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  deletedAt?: Date | null;
+  id: string | null;
+  createdAt: Date | null;
+  updatedAt: Date | null;
+  deletedAt: Date | null;
 }
 
 export abstract class BaseModel {
@@ -25,7 +25,7 @@ export abstract class BaseModel {
   @Field()
   protected deletedAt: Date | null = null;
 
-  constructor(data: BaseModelFields) {
+  constructor(data: Partial<BaseModelFields>) {
     this.id = data.id ?? "";
     this.createdAt = data.createdAt ?? new Date();
     this.updatedAt = data.updatedAt ?? new Date();
@@ -42,5 +42,17 @@ export abstract class BaseModel {
 
   public getId(): string {
     return this.id;
+  }
+
+  public getCreatedAt(): Date {
+    return this.createdAt;
+  }
+
+  public getUpdatedAt(): Date {
+    return this.updatedAt;
+  }
+
+  public getDeletedAt(): Date | null {
+    return this.deletedAt;
   }
 }

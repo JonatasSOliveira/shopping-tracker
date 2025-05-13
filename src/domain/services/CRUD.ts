@@ -23,19 +23,25 @@ export abstract class CRUDService<
     Logger.log(level, `[${this.constructor.name}] ${message}`, error);
   }
 
+  protected getDefaultWhere(): Where<ModelFields> | undefined {
+    return undefined;
+  }
+
   public async create(data: FormDTO): Promise<string> {
     try {
       this.log(LogLevel.DEBUG, `Starting creation process`);
       const id = uuidv4();
       this.log(LogLevel.DEBUG, `Generated ID: ${id}`);
       const session = await this.sessionStorage.get();
-      const userId = session.id;
+      const userId = session?.id;
+      this.log(LogLevel.DEBUG, `User ID: ${userId}`);
       const fields: ModelFields = {
-        id,
+        ...(data as unknown as ModelFields),
         createdByUserId: userId,
         updatedByUserId: userId,
-        ...(data as unknown as ModelFields),
+        id: id,
       };
+      this.log(LogLevel.DEBUG, `Fields: ${JSON.stringify(fields)}`);
       const dataId = await this.repository.create(
         this.mapper.fromFields(fields),
       );
@@ -50,7 +56,9 @@ export abstract class CRUDService<
   public async listAll(): Promise<Model[]> {
     try {
       this.log(LogLevel.INFO, `Retrieving all entries`);
-      return await this.repository.listAll();
+      return await this.repository.listAll({
+        where: this.getDefaultWhere(),
+      });
     } catch (error) {
       this.log(LogLevel.ERROR, `Error retrieving all entries`, error);
       throw error;
@@ -80,7 +88,7 @@ export abstract class CRUDService<
     try {
       this.log(LogLevel.DEBUG, `Updating entry (id: ${id})`);
       const session = await this.sessionStorage.get();
-      const userId = session.id;
+      const userId = session?.id;
       const fields: ModelFields = {
         updatedByUserId: userId,
         ...(data as unknown as ModelFields),

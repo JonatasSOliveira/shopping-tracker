@@ -1,13 +1,14 @@
-import { HomePage } from "@/screens/Home/Page";
-import LoginPage from "@/screens/Login/Page";
-import { RetailerFormPage } from "@/screens/Retailer/Form/Page";
-import ScannerPage from "@/screens/Scanner/Page";
 import { RoutePaths } from "./RoutePaths";
-import { RetailerListPage } from "@/screens/Retailer/List/Page";
-import { ProductListPage } from "@/screens/Product/List/Page";
-import { ProductFormPage } from "@/screens/Product/Form/Page";
-import { PurchaseListPage } from "@/screens/Purchase/List/Page";
+import HomePage from "@/screens/Home/Page";
+import LoginPage from "@/screens/Login/Page";
+import RetailerFormPage from "@/screens/Retailer/Form/Page";
+import ScannerPage from "@/screens/Scanner/Page";
+import RetailerListPage from "@/screens/Retailer/List/Page";
+import ProductListPage from "@/screens/Product/List/Page";
+import ProductFormPage from "@/screens/Product/Form/Page";
+import PurchaseListPage from "@/screens/Purchase/List/Page";
 import SignUpPage from "@/screens/SignUp/Page";
+import PurchaseFormPage from "@/screens/Purchase/Form/Page";
 
 type Route = {
   path: string;
@@ -53,5 +54,9 @@ export const Routes: Route[] = [
   {
     path: RoutePaths.PurchaseList,
     component: PurchaseListPage,
+  },
+  {
+    path: RoutePaths.PurchaseForm,
+    component: PurchaseFormPage,
   },
 ];

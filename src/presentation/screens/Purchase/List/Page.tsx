@@ -16,7 +16,7 @@ type Props = {
 
 const purchaseService = ServiceFacadeProvider.getCloud().getPurchaseService();
 
-export const PurchaseListPage = ({ navigation }: Props) => {
+const PurchaseListPage = ({ navigation }: Props) => {
   return (
     <ListPageTemplate<Purchase>
       title="Lista de Compras"
@@ -34,3 +34,5 @@ export const PurchaseListPage = ({ navigation }: Props) => {
     />
   );
 };
+
+export default PurchaseListPage;

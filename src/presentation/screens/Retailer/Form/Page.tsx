@@ -21,7 +21,7 @@ type RetailerFormPageProps = {
 
 const retailerService = ServiceFacadeProvider.getCloud().getRetailerService();
 
-export function RetailerFormPage({ navigation }: RetailerFormPageProps) {
+const RetailerFormPage = ({ navigation }: RetailerFormPageProps) => {
   const route =
     useRoute<RouteProp<RootStackParamList, RoutePaths.RetailerForm>>();
   const [formData, setFormData] = useState<RetailerFormDTO | null>(null);
@@ -67,4 +67,6 @@ export function RetailerFormPage({ navigation }: RetailerFormPageProps) {
       <Form data={formData} onSubmit={handleSubmit} />
     </AppLayout>
   );
-}
+};
+
+export default RetailerFormPage;
