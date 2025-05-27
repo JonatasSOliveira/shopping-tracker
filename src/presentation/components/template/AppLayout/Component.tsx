@@ -1,12 +1,13 @@
 import InlineAd from "@/components/atom/InlineAd/Component";
 import { View } from "react-native";
 
-// AppLayout.tsx
 export const AppLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <View style={{ flex: 1 }}>
+    <View className="flex-1">
       <InlineAd />
-      <View style={{ flex: 1 }}>{children}</View>
+      <View className="flex-1 items-center flex-col gap-4 flex">
+        {children}
+      </View>
     </View>
   );
 };

@@ -3,6 +3,7 @@ import { getLabelWithFallback } from "@/decorators/presentation/Label";
 export abstract class BaseDTO<DTOFields> {
   private _modelPrototype?: object;
 
+  // TODO: Try another method to get the model prototype
   constructor(modelPrototype?: object) {
     this._modelPrototype = modelPrototype;
   }

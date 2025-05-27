@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "react-native";
+import { Button, Text, TouchableOpacity, View } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "presentation/routes/RootStackParamList";
 import { RoutePaths } from "@/routes/RoutePaths";
@@ -28,23 +28,36 @@ const HomePage = ({ navigation }: Props) => {
 
   return (
     <AppLayout>
-      <Button
-        title="Abrir Scanner"
+      <TouchableOpacity
+        className="bg-blue-500 w-[100%] py-4 px-2 flex justify-center items-center rounded-md"
         onPress={() => navigation.navigate(RoutePaths.Scanner)}
-      />
-      <Button
-        title="Comércios"
+      >
+        <Text className="font-bold color-white">Abrir Scanner</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        className="bg-blue-500 w-[100%] py-4 px-2 flex justify-center items-center rounded-md"
         onPress={() => navigation.navigate(RoutePaths.RetailerList)}
-      />
-      <Button
-        title="Produtos"
+      >
+        <Text className="font-bold color-white">Comércios</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        className="bg-blue-500 w-[100%] py-4 px-2 flex justify-center items-center rounded-md"
         onPress={() => navigation.navigate(RoutePaths.ProductList)}
-      />
-      <Button
-        title="Compras"
+      >
+        <Text className="font-bold color-white">Produtos</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        className="bg-blue-500 w-[100%] py-4 px-2 flex justify-center items-center rounded-md"
         onPress={() => navigation.navigate(RoutePaths.PurchaseList)}
-      />
-      <Button title="Deslogar" onPress={handleLogout} />
+      >
+        <Text className="font-bold color-white">Compras</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        className="bg-blue-500 w-[100%] py-4 px-2 flex justify-center items-center rounded-md"
+        onPress={handleLogout}
+      >
+        <Text className="font-bold color-white">Deslogar</Text>
+      </TouchableOpacity>
     </AppLayout>
   );
 };

@@ -7,4 +7,4 @@ config.resolver.extraNodeModules = {
 };
 config.resolver.sourceExts.push("cjs");
 
-module.exports = config;
+module.exports = withNativeWind(config, { input: "./global.css" });

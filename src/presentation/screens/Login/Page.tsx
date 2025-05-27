@@ -1,4 +1,4 @@
-import { View, Alert, Button } from "react-native";
+import { Alert, TouchableOpacity, Text } from "react-native";
 import React from "react";
 import { Form } from "@/components/organism/Form/Component";
 import { SignInRequestDTO } from "@/dtos/auth/request/SignIn";
@@ -41,7 +41,9 @@ const LoginPage = ({ navigation }: LoginProps) => {
         onSubmit={handleSubmit}
         saveButtonText="Entrar"
       />
-      <Button title="Novo? Cadastre-se" onPress={handleSignUpRedirect} />
+      <TouchableOpacity onPress={handleSignUpRedirect}>
+        <Text className="color-blue-600">Novo? Cadastre-se</Text>
+      </TouchableOpacity>
     </AppLayout>
   );
 };

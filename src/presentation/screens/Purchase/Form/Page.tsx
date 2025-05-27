@@ -1,88 +1,164 @@
 import { ServiceFacadeProvider } from "@/application/ServiceFacadeProvider";
 import { AppLayout } from "@/components/template/AppLayout/Component";
-import { ProductFields } from "@/models/Product";
-import { PurchaseProductFields } from "@/models/PurchaseProduct";
 import {
   BarcodeScanningResult,
   CameraView,
   useCameraPermissions,
 } from "expo-camera";
-import React, { useState } from "react";
-import { Button, View } from "react-native";
+import React, { useRef, useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import ProductModal, { ProductModalRef } from "./ProductModal";
+import { ProductPurchasePresentationDTO } from "./dtos/ProductPurchasePresentationDTO";
+import { ScrollView } from "react-native-gesture-handler";
+import { formatCurrency } from "@/utils/format";
+import { Logger, LogLevel } from "@/services/Logger";
 
 const productService = ServiceFacadeProvider.getCloud().getProductService();
 
-type ProductPurchasePresentation = Required<Pick<ProductFields, "name">> &
-  Required<Pick<PurchaseProductFields, "quantity" | "unitPrice" | "isOnSale">>;
-
 const PurchaseFormPage = () => {
   const [permission, requestPermission] = useCameraPermissions();
-
+  const productModalRef = useRef<ProductModalRef>(null);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [isSearchProduct, setIsSearchProduct] = useState(false);
-  const [product, setProduct] = useState<ProductPurchasePresentation | null>(
-    null,
+  const [products, setProducts] = useState<ProductPurchasePresentationDTO[]>(
+    [],
   );
+  const [totalPrice, setTotalPrice] = useState("R$ 0,00");
 
   const findProductByBarcode = async (barcode: string) => {
     setIsSearchProduct(true);
     const product = await productService.findByBarCode(barcode);
 
     if (product) {
-      setProduct({
-        name: product.getName(),
-        isOnSale: false,
-        quantity: 1,
-        unitPrice: 0,
-      });
-      setIsScannerOpen(false);
-    } else {
-      // TODO: Abrir modal de cadastrar produto
+      productModalRef.current?.openModalAddMode(product); // Ref vai funcionar se modal estiver sempre renderizado
     }
 
+    setIsScannerOpen(false);
     setIsSearchProduct(false);
   };
 
   const openScanner = async () => {
     if (!permission || !permission.granted) {
       const { granted } = await requestPermission();
-
-      if (!granted) {
-        return;
-      }
+      if (!granted) return;
     }
-
     setIsScannerOpen(true);
   };
 
   const scanBarcodeHandler = async (scanningResult: BarcodeScanningResult) => {
     if (isSearchProduct) return;
-
     const scannedCode = scanningResult.data;
     await findProductByBarcode(scannedCode);
   };
 
-  if (isScannerOpen) {
-    return (
-      <View style={{ flex: 1 }}>
-        <CameraView
-          style={{ flex: 1 }}
-          facing="back"
-          barcodeScannerSettings={{
-            barcodeTypes: ["ean13"],
-          }}
-          onBarcodeScanned={scanBarcodeHandler}
-        ></CameraView>
-      </View>
-    );
-  }
+  const handlerEditProduct = (
+    product: ProductPurchasePresentationDTO,
+    index: number,
+  ) => {
+    productModalRef.current?.openModalEditMode(product, index);
+  };
+
+  const handlerUpdateProductList = (
+    product: ProductPurchasePresentationDTO,
+    index?: number,
+  ) => {
+    try {
+      const newProductsList = [...products];
+
+      if (index !== undefined) {
+        newProductsList[index] = product;
+      } else {
+        newProductsList.push(product);
+      }
+
+      const total = newProductsList.reduce(
+        (sum, p) => sum + p.getTotalPrice(),
+        0,
+      );
+
+      setProducts(newProductsList);
+      setTotalPrice(formatCurrency(total));
+    } catch (error) {
+      Logger.log(LogLevel.ERROR, "Error updating product list", error);
+    }
+  };
+
+  const handlerSearchProduct = () => {};
+
+  const handlerSavePurchase = () => {};
 
   return (
-    <AppLayout>
-      <View>
-        <Button title="Escanear código de barras" onPress={openScanner} />
-      </View>
-    </AppLayout>
+    <>
+      <ProductModal
+        ref={productModalRef}
+        onConfirm={handlerUpdateProductList}
+      />
+
+      {isScannerOpen ? (
+        <View style={{ flex: 1 }}>
+          <CameraView
+            style={{ flex: 1 }}
+            facing="back"
+            barcodeScannerSettings={{ barcodeTypes: ["ean13"] }}
+            onBarcodeScanned={scanBarcodeHandler}
+          />
+        </View>
+      ) : (
+        <AppLayout>
+          <Text className="text-2xl font-bold mt-4">Lista de produtos</Text>
+          <ScrollView className="flex flex-col gap-4 w-full px-4">
+            {products.map((product, index) => (
+              <TouchableOpacity
+                key={index}
+                className="p-4 bg-gray-200 rounded-md"
+                onPress={() => handlerEditProduct(product, index)}
+              >
+                <View className="flex flex-row justify-between items-center">
+                  <Text className="font-bold text-lg">{product.name}</Text>
+                  <FontAwesome name="edit" size={24} color="black" />
+                </View>
+                <View className="flex justify-between flex-row">
+                  <Text className="text-lg">Qtd: {product.quantity}</Text>
+                  <Text className="text-lg">
+                    {product.getFormatedUnitPrice()} (unid.)
+                  </Text>
+                  <Text className="text-lg">
+                    {product.getFormatedTotalPrice()} (total)
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+          <View className="flex flex-col  justify-start items-start w-full h-[15%] px-4">
+            <Text className="text-2xl font-bold">Total: {totalPrice}</Text>
+          </View>
+          <View className="flex flex-row justify-between w-full bg-gray-300 py-4 px-2">
+            <TouchableOpacity
+              onPress={handlerSearchProduct}
+              className="bg-blue-600 p-6 rounded-2xl flex flex-row gap-2"
+            >
+              <FontAwesome name="search" size={24} color="white" />
+              <Text className="color-white font-bold text-md">Pesquisar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handlerSavePurchase}
+              className="bg-green-600 p-6 rounded-2xl flex flex-row gap-2"
+            >
+              <FontAwesome name="save" size={24} color="white" />
+              <Text className="color-white font-bold text-md">Salvar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={openScanner}
+              className="bg-blue-600 p-6 rounded-2xl flex flex-row gap-2"
+            >
+              <FontAwesome name="barcode" size={24} color="white" />
+              <Text className="color-white font-bold text-md">Escanear</Text>
+            </TouchableOpacity>
+          </View>
+        </AppLayout>
+      )}
+    </>
   );
 };
 
