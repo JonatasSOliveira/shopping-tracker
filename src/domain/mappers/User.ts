@@ -1,7 +1,7 @@
 import { SignUpRequestDTOProps } from "@/dtos/auth/request/SignUp";
-import { User, UserFields } from "@/models/User";
+import { User, UserFields } from "@devjonatas/devkit/models";
 import { UserMapperPort } from "@/ports/middleware/UserMapper";
-import { capitalizeWords } from "@/utils/string";
+import { capitalizeWords } from "@devjonatas/devkit/utils";
 
 export class UserMapper implements UserMapperPort {
   public fromDTO(data: any): User {

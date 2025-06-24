@@ -5,4 +5,9 @@ import { CRUDService } from "./CRUD";
 
 export class RetailerService
   extends CRUDService<Retailer, RetailerFields, RetailerFormDTO>
-  implements RetailerPortIn {}
+  implements RetailerPortIn
+{
+  listByName(name: string): Promise<Retailer[]> {
+    throw new Error("Method not implemented.");
+  }
+}

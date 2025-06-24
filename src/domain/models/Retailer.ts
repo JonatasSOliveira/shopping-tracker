@@ -1,8 +1,9 @@
-import { Model } from "@/decorators/database/Model";
-import { Field } from "@/decorators/database/Field";
-import { Label } from "@/decorators/presentation/Label";
-import { NotNull } from "@/decorators/database/NotNull";
-import { ApprovableModel, ApprovableModelFields } from "./ApprovableModel";
+import { Field, Model, NotNull } from "@devjonatas/devkit/decorators/database";
+import {
+  ApprovableModel,
+  ApprovableModelFields,
+} from "@devjonatas/devkit/models";
+import { Label } from "@devjonatas/devkit/decorators/presentation";
 
 export interface RetailerFields extends ApprovableModelFields {
   name?: string;

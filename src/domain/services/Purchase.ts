@@ -3,7 +3,7 @@ import { CRUDService } from "./CRUD";
 import { PurchaseFormDTO } from "@/dtos/purchase/request/Form";
 import { PurchasePortIn } from "@/ports/in/Purchase";
 import { PurchaseRepository } from "@/ports/out/PurchaseRepository";
-import { ModelMapperPort } from "@/ports/middleware/Mapper";
+import { ModelMapperPort } from "@devjonatas/devkit/ports/middleware";
 import { SessionStoragePortOut } from "@/ports/out/SessionStorage";
 
 export class PurchaseService

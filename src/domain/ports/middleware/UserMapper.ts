@@ -1,4 +1,4 @@
-import { User, UserFields } from "@/models/User";
+import { User, UserFields } from "@devjonatas/devkit/models";
 import { ModelMapperPort } from "./Mapper";
 import { SignUpRequestDTOProps } from "@/dtos/auth/request/SignUp";
 

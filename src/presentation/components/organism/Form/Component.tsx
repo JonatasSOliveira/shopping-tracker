@@ -1,8 +1,9 @@
-import { isReadonly } from "@/decorators/presentation/Readonly";
-import { isSecret } from "@/decorators/presentation/Secret";
-import { isEmail } from "@/decorators/validation/Email";
-import { isRequired } from "@/decorators/validation/Required";
 import { BaseDTO } from "@/dtos/Base";
+import {
+  isReadonly,
+  isSecret,
+} from "@devjonatas/devkit/decorators/presentation";
+import { isEmail, isRequired } from "@devjonatas/devkit/decorators/validation";
 import React from "react";
 import { useForm, Controller, DefaultValues, Path } from "react-hook-form";
 import {

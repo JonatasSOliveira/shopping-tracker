@@ -1,6 +1,6 @@
 import { Purchase, PurchaseFields } from "@/models/Purchase";
 import { SQLiteBaseRepositoryAdapter } from "./BaseRepository";
-import { ModelMapperPort } from "@/ports/middleware/Mapper";
+import { ModelMapperPort } from "@devjonatas/devkit/ports/middleware";
 import { SQLiteQueryExecutor } from "@/infra/SQLite/QueryExecutor";
 import { PurchaseRepository } from "@/ports/out/PurchaseRepository";
 

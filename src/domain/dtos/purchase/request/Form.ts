@@ -1,6 +1,6 @@
-import { Required } from "@/decorators/validation/Required";
 import { BaseDTO } from "@/dtos/Base";
 import { Purchase, PurchaseFields } from "@/models/Purchase";
+import { Required } from "@devjonatas/devkit/decorators/validation";
 
 type PurchaseFormDTOProps = Required<
   Pick<PurchaseFields, "retailerId" | "total" | "date">

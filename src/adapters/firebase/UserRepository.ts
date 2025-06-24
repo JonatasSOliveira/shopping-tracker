@@ -1,7 +1,7 @@
 import { UserRepository } from "@/ports/out/UserRepository";
-import { FirebaseBaseRepositoryAdapter } from "./BaseRepository";
-import { User, UserFields } from "@/models/User";
-import { ModelMapperPort } from "@/ports/middleware/Mapper";
+import { FirebaseBaseRepositoryAdapter } from "@devjonatas/devkit/adapters";
+import { User, UserFields } from "@devjonatas/devkit/models";
+import { ModelMapperPort } from "@devjonatas/devkit/ports/middleware";
 
 export class FirebaseUserRepositoryAdapter
   extends FirebaseBaseRepositoryAdapter<User, UserFields>

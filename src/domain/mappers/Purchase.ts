@@ -1,6 +1,6 @@
 import { PurchaseFormDTO } from "@/dtos/purchase/request/Form";
 import { Purchase, PurchaseFields } from "@/models/Purchase";
-import { ModelMapperPort } from "@/ports/middleware/Mapper";
+import { ModelMapperPort } from "@devjonatas/devkit/ports/middleware";
 
 export class PurchaseMapper
   implements ModelMapperPort<Purchase, PurchaseFields, PurchaseFormDTO>

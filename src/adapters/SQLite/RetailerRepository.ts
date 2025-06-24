@@ -3,7 +3,7 @@ import { Retailer, RetailerFields } from "@/models/Retailer";
 import { RetailerRepository } from "@/ports/out/RetailerRepository";
 import { SQLiteBaseRepositoryAdapter } from "./BaseRepository";
 import { RetailerFormDTO } from "@/dtos/retailer/request/Form";
-import { ModelMapperPort } from "@/ports/middleware/Mapper";
+import { ModelMapperPort } from "@devjonatas/devkit/ports/middleware";
 
 export class SQLiteRetailerRepositoryAdapter
   extends SQLiteBaseRepositoryAdapter<Retailer, RetailerFields>

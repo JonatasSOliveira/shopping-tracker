@@ -1,7 +1,7 @@
 import { ProductRepository } from "@/ports/out/ProductRepository";
-import { FirebaseBaseRepositoryAdapter } from "./BaseRepository";
+import { FirebaseBaseRepositoryAdapter } from "@devjonatas/devkit/adapters";
 import { Product, ProductFields } from "@/models/Product";
-import { ModelMapperPort } from "@/ports/middleware/Mapper";
+import { ModelMapperPort } from "@devjonatas/devkit/ports/middleware";
 
 export class FirebaseProductRepositoryAdapter
   extends FirebaseBaseRepositoryAdapter<Product, ProductFields>

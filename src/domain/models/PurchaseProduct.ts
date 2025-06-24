@@ -1,9 +1,14 @@
-import { ForeignKey } from "@/decorators/database/ForeignKey";
-import { UserTrackedModel, UserTrackedModelFields } from "./UserTracked";
+import {
+  UserTrackedModel,
+  UserTrackedModelFields,
+} from "@devjonatas/devkit/models";
 import { Product } from "./Product";
 import { Purchase } from "./Purchase";
-import { Field } from "@/decorators/database/Field";
-import { NotNull } from "@/decorators/database/NotNull";
+import {
+  Field,
+  ForeignKey,
+  NotNull,
+} from "@devjonatas/devkit/decorators/database";
 
 export interface PurchaseProductFields extends UserTrackedModelFields {
   productId: string;

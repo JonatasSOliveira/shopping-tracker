@@ -5,6 +5,11 @@
     "baseUrl": "./src",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "moduleResolution": "nodenext",
+    "module": "nodenext", 
+    "target": "es2022",
+    "esModuleInterop": true,
+    "resolvePackageJsonImports": false,
     "paths": {
       "@/decorators/*": ["./domain/decorators/*"],
       "@/models/*": ["./domain/models/*"],
@@ -19,7 +24,7 @@
       "@/screens/*": ["./presentation/screens/*"],
       "@/infra/*": ["./infra/*"],
       "@/routes/*": ["./presentation/routes/*"],
-      "@/hooks/*": ["./presentation/hooks/*"],
+      "@/hooks/*": ["./presentation/hooks/*"]
     }
   }
 }

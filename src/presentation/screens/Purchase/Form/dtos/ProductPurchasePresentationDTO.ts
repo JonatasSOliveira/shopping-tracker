@@ -1,8 +1,8 @@
-import { Readonly } from "@/decorators/presentation/Readonly";
 import { BaseDTO } from "@/dtos/Base";
 import { ProductFields } from "@/models/Product";
 import { PurchaseProductFields } from "@/models/PurchaseProduct";
-import { formatCurrency } from "@/utils/format";
+import { formatCurrency } from "@devjonatas/devkit/utils";
+import { Readonly } from "@devjonatas/devkit/decorators/presentation";
 
 export type ProductPurchasePresentationDTOProps = {
   name: NonNullable<ProductFields["name"]>;

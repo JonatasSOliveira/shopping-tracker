@@ -12,6 +12,7 @@
     "prebuild": "npx expo prebuild --clean"
   },
   "dependencies": {
+    "@devjonatas/devkit": "file:.yalc/@devjonatas/devkit",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-firebase/app": "22.0.0",
     "@react-native-firebase/auth": "22.0.0",
@@ -50,8 +51,11 @@
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "eslint": "^8.57.0",
     "eslint-config-expo": "~8.0.1",
-    "eslint-config-prettier": "^10.1.1",
-    "eslint-plugin-prettier": "^5.2.4",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-import-resolver-node": "^0.3.9",
+    "eslint-import-resolver-typescript": "^4.4.3",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.4.1",
     "prettier": "^3.5.3",
     "reflect-metadata": "^0.2.2",
     "typescript": "^5.3.3"

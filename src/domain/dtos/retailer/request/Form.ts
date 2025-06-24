@@ -1,6 +1,6 @@
-import { Required } from "@/decorators/validation/Required";
 import { BaseDTO } from "@/dtos/Base";
 import { Retailer, RetailerFields } from "@/models/Retailer";
+import { Required } from "@devjonatas/devkit/decorators/validation";
 
 type RetailerFormDTOProps = Required<Pick<RetailerFields, "name">> &
   Pick<RetailerFields, "address" | "city" | "stateUf">;

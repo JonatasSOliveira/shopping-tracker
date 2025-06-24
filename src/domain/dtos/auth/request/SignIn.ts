@@ -1,8 +1,6 @@
-import { Label } from "@/decorators/presentation/Label";
-import { Secret } from "@/decorators/presentation/Secret";
-import { Email } from "@/decorators/validation/Email";
-import { Required } from "@/decorators/validation/Required";
+import { Email, Required } from "@devjonatas/devkit/decorators/validation";
 import { BaseDTO } from "@/dtos/Base";
+import { Label, Secret } from "@devjonatas/devkit/decorators/presentation";
 
 interface SignInRequestDTOProps {
   email: string;

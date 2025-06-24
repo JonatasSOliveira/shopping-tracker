@@ -1,12 +1,15 @@
-import { FieldData, getModelFields } from "@/decorators/database/Field";
-import { getTableName } from "@/decorators/database/Model";
-import { isNotNull } from "@/decorators/database/NotNull";
-import { isPrimaryKey } from "@/decorators/database/PrimaryKey";
-import { getForeignKey } from "@/decorators/database/ForeignKey";
 import { allModels } from "@/infra/orm/ModelRegistry";
 import { SQLiteProvider } from "@/infra/SQLite/Provider";
 import { SyncLocalDatabasePortOut } from "@/ports/out/SyncLocalDatabase";
 import { Logger, LogLevel } from "@/services/Logger";
+import {
+  getModelFields,
+  getTableName,
+  isNotNull,
+  isPrimaryKey,
+  FieldData,
+  getForeignKey,
+} from "@devjonatas/devkit/decorators/database";
 import * as SQLite from "expo-sqlite";
 
 export class SQLiteSyncLocalDatabase implements SyncLocalDatabasePortOut {

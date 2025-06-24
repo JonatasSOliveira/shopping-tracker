@@ -1,7 +1,6 @@
-import { Label } from "@/decorators/presentation/Label";
-import { Secret } from "@/decorators/presentation/Secret";
-import { Required } from "@/decorators/validation/Required";
 import { BaseDTO } from "@/dtos/Base";
+import { Label, Secret } from "@devjonatas/devkit/decorators/presentation";
+import { Required } from "@devjonatas/devkit/decorators/validation";
 
 export interface SignUpRequestDTOProps {
   name: string;

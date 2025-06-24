@@ -1,6 +1,6 @@
 import { Product, ProductFields } from "@/models/Product";
 import { SQLiteBaseRepositoryAdapter } from "./BaseRepository";
-import { ModelMapperPort } from "@/ports/middleware/Mapper";
+import { ModelMapperPort } from "@devjonatas/devkit/ports/middleware";
 import { SQLiteQueryExecutor } from "@/infra/SQLite/QueryExecutor";
 import { ProductRepository } from "@/ports/out/ProductRepository";
 

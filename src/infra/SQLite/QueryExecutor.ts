@@ -1,4 +1,4 @@
-import { Where } from "@/types/repositories/Where";
+import { Where } from "@devjonatas/devkit/types";
 import { SQLiteProvider } from "./Provider";
 import { SQLiteBindValue } from "expo-sqlite";
 import { Logger, LogLevel } from "@/services/Logger";

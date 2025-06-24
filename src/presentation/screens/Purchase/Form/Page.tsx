@@ -11,14 +11,16 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import ProductModal, { ProductModalRef } from "./ProductModal";
 import { ProductPurchasePresentationDTO } from "./dtos/ProductPurchasePresentationDTO";
 import { ScrollView } from "react-native-gesture-handler";
-import { formatCurrency } from "@/utils/format";
+import { formatCurrency } from "@devjonatas/devkit/utils";
 import { Logger, LogLevel } from "@/services/Logger";
+import RetailerModal, { RetailerModalRef } from "./RetailerModal";
 
 const productService = ServiceFacadeProvider.getCloud().getProductService();
 
 const PurchaseFormPage = () => {
   const [permission, requestPermission] = useCameraPermissions();
   const productModalRef = useRef<ProductModalRef>(null);
+  const retailerModalRef = useRef<RetailerModalRef>(null);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [isSearchProduct, setIsSearchProduct] = useState(false);
   const [products, setProducts] = useState<ProductPurchasePresentationDTO[]>(
@@ -94,6 +96,8 @@ const PurchaseFormPage = () => {
         ref={productModalRef}
         onConfirm={handlerUpdateProductList}
       />
+
+      <RetailerModal ref={retailerModalRef} />
 
       {isScannerOpen ? (
         <View style={{ flex: 1 }}>

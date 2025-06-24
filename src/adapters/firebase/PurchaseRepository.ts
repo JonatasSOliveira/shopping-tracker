@@ -1,7 +1,7 @@
 import { PurchaseRepository } from "@/ports/out/PurchaseRepository";
-import { FirebaseBaseRepositoryAdapter } from "./BaseRepository";
+import { FirebaseBaseRepositoryAdapter } from "@devjonatas/devkit/adapters";
 import { Purchase, PurchaseFields } from "@/models/Purchase";
-import { ModelMapperPort } from "@/ports/middleware/Mapper";
+import { ModelMapperPort } from "@devjonatas/devkit/ports/middleware";
 
 export class FirebasePurchaseRepositoryAdapter
   extends FirebaseBaseRepositoryAdapter<Purchase, PurchaseFields>

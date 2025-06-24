@@ -1,4 +1,4 @@
-import { BaseModel } from "@/models/Base";
+import { BaseModel } from "@devjonatas/devkit/models";
 
 export interface CRUDPortIn<Model extends BaseModel, FormDTO> {
   create(data: FormDTO): Promise<string>;

@@ -1,10 +1,15 @@
-import { Model } from "@/decorators/database/Model";
-import { Field } from "@/decorators/database/Field";
-import { NotNull } from "@/decorators/database/NotNull";
-import { ForeignKey } from "@/decorators/database/ForeignKey";
-import { Label } from "@/decorators/presentation/Label";
+import {
+  Field,
+  ForeignKey,
+  Model,
+  NotNull,
+} from "@devjonatas/devkit/decorators/database";
+import { Label } from "@devjonatas/devkit/decorators/presentation";
 import { Retailer } from "./Retailer";
-import { UserTrackedModel, UserTrackedModelFields } from "./UserTracked";
+import {
+  UserTrackedModel,
+  UserTrackedModelFields,
+} from "@devjonatas/devkit/models";
 
 export interface PurchaseFields extends UserTrackedModelFields {
   retailerId?: number;

@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "@devjonatas/devkit": {
+      "signature": "dd12930b0a82c706c9cd67928efa6f93",
+      "file": true
+    }
+  }
+}

@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
-import { BaseModel, BaseModelFields } from "@/models/Base";
+import { BaseModel, BaseModelFields } from "@devjonatas/devkit/models";
 import { CRUDPortIn } from "@/ports/in/CRUD";
-import { ModelMapperPort } from "@/ports/middleware/Mapper";
-import { BaseRepository } from "@/ports/out/BaseRepository";
-import { Where } from "@/types/repositories/Where";
+import { ModelMapperPort } from "@devjonatas/devkit/ports/middleware";
+import { BaseRepository } from "@devjonatas/devkit/ports/out";
+import { Where } from "@devjonatas/devkit/types";
 import { Logger, LogLevel } from "./Logger";
 import { SessionStoragePortOut } from "@/ports/out/SessionStorage";
 

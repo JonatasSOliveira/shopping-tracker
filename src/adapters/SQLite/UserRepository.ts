@@ -1,8 +1,8 @@
 import { SQLiteQueryExecutor } from "@/infra/SQLite/QueryExecutor";
-import { User, UserFields } from "@/models/User";
+import { User, UserFields } from "@devjonatas/devkit/models";
 import { UserRepository } from "@/ports/out/UserRepository";
 import { SQLiteBaseRepositoryAdapter } from "./BaseRepository";
-import { ModelMapperPort } from "@/ports/middleware/Mapper";
+import { ModelMapperPort } from "@devjonatas/devkit/ports/middleware";
 
 export class SQLiteUserRepositoryAdapter
   extends SQLiteBaseRepositoryAdapter<User, UserFields>

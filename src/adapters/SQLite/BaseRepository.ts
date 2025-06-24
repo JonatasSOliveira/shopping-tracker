@@ -1,10 +1,10 @@
-import { getTableName } from "@/decorators/database/Model";
 import { SQLiteQueryExecutor } from "@/infra/SQLite/QueryExecutor";
-import { BaseModel, BaseModelFields } from "@/models/Base";
-import { BaseRepository } from "@/ports/out/BaseRepository";
-import { Where } from "@/types/repositories/Where";
+import { BaseModel, BaseModelFields } from "@devjonatas/devkit/models";
+import { BaseRepository } from "@devjonatas/devkit/ports/out";
+import { Where } from "@devjonatas/devkit/types";
 import { Logger, LogLevel } from "@/services/Logger";
-import { ModelMapperPort } from "@/ports/middleware/Mapper";
+import { ModelMapperPort } from "@devjonatas/devkit/ports/middleware";
+import { getTableName } from "@devjonatas/devkit/decorators/database";
 
 export class SQLiteBaseRepositoryAdapter<
   Model extends BaseModel,

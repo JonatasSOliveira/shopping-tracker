@@ -1,7 +1,7 @@
 import { RetailerFormDTO } from "@/dtos/retailer/request/Form";
 import { Retailer, RetailerFields } from "@/models/Retailer";
-import { ModelMapperPort } from "@/ports/middleware/Mapper";
-import { capitalizeWords } from "@/utils/string";
+import { ModelMapperPort } from "@devjonatas/devkit/ports/middleware";
+import { capitalizeWords } from "@devjonatas/devkit/utils";
 
 export class RetailerMapper
   implements ModelMapperPort<Retailer, RetailerFields, RetailerFormDTO>

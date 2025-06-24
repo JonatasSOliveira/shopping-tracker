@@ -1,4 +1,4 @@
-import { getLabelWithFallback } from "@/decorators/presentation/Label";
+import { getLabelWithFallback } from "@devjonatas/devkit/decorators/presentation";
 
 export abstract class BaseDTO<DTOFields> {
   private _modelPrototype?: object;

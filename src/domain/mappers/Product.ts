@@ -1,7 +1,7 @@
 import { ProductFormDTO } from "@/dtos/product/request/Form";
 import { Product, ProductFields } from "@/models/Product";
-import { ModelMapperPort } from "@/ports/middleware/Mapper";
-import { capitalizeWords } from "@/utils/string";
+import { ModelMapperPort } from "@devjonatas/devkit/ports/middleware";
+import { capitalizeWords } from "@devjonatas/devkit/utils";
 
 export class ProductMapper
   implements ModelMapperPort<Product, ProductFields, ProductFormDTO>

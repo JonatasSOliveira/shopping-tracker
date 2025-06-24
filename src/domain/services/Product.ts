@@ -3,7 +3,7 @@ import { CRUDService } from "./CRUD";
 import { ProductFormDTO } from "@/dtos/product/request/Form";
 import { ProductPortIn } from "@/ports/in/Product";
 import { LogLevel } from "./Logger";
-import { ApprovalStatus } from "@/models/ApprovableModel";
+import { ApprovalStatus } from "@devjonatas/devkit/models";
 
 export class ProductService
   extends CRUDService<Product, ProductFields, ProductFormDTO>
